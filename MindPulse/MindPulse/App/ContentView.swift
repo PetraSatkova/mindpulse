@@ -10,17 +10,34 @@ import SwiftUI
 struct ContentView: View {
     
     @State var selectedTab = 0
-    
+    @State private var isSettingPresented: Bool = false
     
     var body: some View {
-        TabView(selection: $selectedTab) {
-            Tab("Activities", systemImage: "house.circle.fill", value: 0) {
-                ActivitiesView()
-                
+        NavigationStack{
+            TabView(selection: $selectedTab) {
+                Tab("Activities", systemImage: "house.circle.fill", value: 0) {
+                    ActivitiesView()
+                    
+                }
+                Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
+                    
+                }
             }
-            Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
-                
+            .navigationTitle(selectedTab == 1 ? "Statistics" : "MindPulse")
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing){
+                    Button(action: {
+                        isSettingPresented = true
+                    }) {
+                        Label("Add Place", systemImage: "gear")
+                            .labelStyle(.iconOnly)
+                    }
+                }
             }
+            .navigationDestination(isPresented: $isSettingPresented) {
+                SettingView()
+            }
+            
         }
         
     }

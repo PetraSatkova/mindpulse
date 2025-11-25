@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct ActivitiesView: View{
-    
+        
     var body: some View{
         NavigationStack{
+            VStack{
+                Text("Hello World")
+            }
+            .navigationTitle("MindPulse")
             
+
         }
-        .navigationTitle("MindPulse")
     }
 }
