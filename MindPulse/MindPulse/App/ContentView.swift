@@ -20,7 +20,10 @@ struct ContentView: View {
                     
                 }
                 Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
-                    
+                    Text("Hiii").themedBackground()
+                }
+                Tab("Test", systemImage: "house", value: 3){
+                    Test()
                 }
             }
             .navigationTitle(selectedTab == 1 ? "Statistics" : "MindPulse")

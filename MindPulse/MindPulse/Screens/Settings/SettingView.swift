@@ -21,7 +21,6 @@ struct SettingView: View {
     @State private var activeSheet: ActiveSheet?
     
     @EnvironmentObject var themeManager: ThemeManager
-
     private let appVersion: String = Bundle.main.appVersion ?? "-"
     
     var body: some View {
@@ -37,6 +36,7 @@ struct SettingView: View {
             
             SettingCard(title: "App version", subtitle: appVersion)
         }
+        .themedBackground()
         .navigationTitle("Settings")
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
@@ -45,11 +45,10 @@ struct SettingView: View {
             case .notificationSettings:
                 Text("Notification settings")
             }
-            
         }
-        
     }
 }
+
 
 extension Bundle{
     var appVersion: String? {
