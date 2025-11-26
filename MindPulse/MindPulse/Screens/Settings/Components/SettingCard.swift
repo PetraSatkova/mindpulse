@@ -11,6 +11,7 @@ struct SettingCard: View {
     var title: String
     var subtitle: String
     var buttonText: String?
+    var action: (() -> Void)?
     
     var body: some View {
         HStack{
@@ -23,9 +24,7 @@ struct SettingCard: View {
             Spacer()
             
             if let buttonText = buttonText{
-                Button(buttonText) {
-                    
-                }
+                Button(buttonText, action: action ?? {})
                 .padding(.trailing,16)
             }
         }
