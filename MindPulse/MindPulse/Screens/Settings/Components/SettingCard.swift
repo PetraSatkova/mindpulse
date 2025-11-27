@@ -13,6 +13,8 @@ struct SettingCard: View {
     var buttonText: String?
     var action: (() -> Void)?
     
+    @EnvironmentObject var themeManager: ThemeManager
+    
     var body: some View {
         HStack{
             VStack(alignment: .leading){
@@ -30,7 +32,8 @@ struct SettingCard: View {
         }
         .frame(maxWidth: 350, alignment: .leading)
         .frame(height: 100)
-        .background(Color.calmDawnEnd)
+        .background(themeManager.currentTheme.isDark ? Color.black : Color.white)
+        .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)
         .cornerRadius(25)
     }
 }

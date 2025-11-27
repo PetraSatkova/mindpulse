@@ -76,11 +76,6 @@ struct ThemeSelectorView: View {
                         activeSheet = nil
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        activeSheet = nil
-                    }
-                }
             }
         }
     }
