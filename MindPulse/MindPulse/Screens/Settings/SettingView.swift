@@ -39,12 +39,16 @@ struct SettingView: View {
         .themedBackground()
         .navigationTitle("Settings")
         .sheet(item: $activeSheet) { sheet in
-            switch sheet {
-            case .themeSelector:
-                ThemeSelectorView(activeSheet: $activeSheet)
-            case .notificationSettings:
-                Text("Notification settings")
+            Group{
+                switch sheet {
+                case .themeSelector:
+                    ThemeSelectorView(activeSheet: $activeSheet)
+                case .notificationSettings:
+                    Text("Notification settings")
+                }
             }
+            .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)
+
         }
     }
 }

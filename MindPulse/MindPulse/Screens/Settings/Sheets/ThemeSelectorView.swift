@@ -21,51 +21,9 @@ struct ThemeSelectorView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
-                    Text("Light")
-                        .font(.title3)
-                        .fontWeight(.bold)
-
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(themeManager.availableThemes.filter { !$0.isDark }) { theme in
-                            VStack(spacing: 8) {
-                                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                    .fill(theme.gradient)
-                                    .frame(width: 100, height: 146)
-                                    .shadow(color: .black.opacity(0.25), radius: 8, y: 6)
-
-                                Text(theme.name)
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                                    .multilineTextAlignment(.center)
-                            }
-                            .onTapGesture {
-                                themeManager.select(theme)
-                            }
-                        }
-                    }
-
-                    Text("Dark")
-                        .font(.title3)
-                        .fontWeight(.bold)
-
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(themeManager.availableThemes.filter { $0.isDark }) { theme in
-                            VStack(spacing: 8) {
-                                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                    .fill(theme.gradient)
-                                    .frame(width: 100, height: 146)
-                                    .shadow(color: .black.opacity(0.25), radius: 8, y: 6)
-
-                                Text(theme.name)
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                                    .multilineTextAlignment(.center)
-                            }
-                            .onTapGesture {
-                                themeManager.select(theme)
-                            }
-                        }
-                    }
+                    ThemeSectionView(title: "Light", themes: themeManager.availableThemes.filter({!$0.isDark}), columns: columns)
+                    
+                    ThemeSectionView(title: "Dark", themes: themeManager.availableThemes.filter({$0.isDark}), columns: columns)
                 }
                 .padding()
             }
@@ -74,6 +32,63 @@ struct ThemeSelectorView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Close") {
                         activeSheet = nil
+                    }
+                }
+            }
+        }
+        .background(themeManager.currentTheme.isDark ? Color.black : Color.white)
+        .animation(.easeInOut(duration: 0.3), value: themeManager.currentTheme.isDark)
+    }
+}
+
+struct ThemeSectionView: View {
+    
+    let title: String
+    let themes: [Theme]
+    let columns: [GridItem]
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    var body: some View {
+        if !themes.isEmpty {
+            VStack(alignment: .leading, spacing: 16) {
+                
+                Text(title)
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.primary)
+                
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(themes) { theme in
+                        
+                        let isSelected = theme.id == themeManager.currentTheme.id
+                        
+                        VStack(spacing: 8) {
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(theme.gradient)
+                                .frame(width: 100, height: 146)
+                                .shadow(color: .black.opacity(0.25), radius: 8, y: 6)
+                                .overlay {
+                                    if isSelected {
+                                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                            .stroke(.white, lineWidth: 4)
+                                            .shadow(color: .black.opacity(0.3), radius: 2)
+                                    }
+                                }
+                                .scaleEffect(isSelected ? 1.05 : 1.0)
+                            
+                            Text(theme.name)
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .multilineTextAlignment(.center)
+                                .foregroundStyle(.primary)
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            withAnimation(.spring()) {
+                                themeManager.select(theme)
+                            }
+                        }
                     }
                 }
             }
