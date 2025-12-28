@@ -9,22 +9,35 @@ import SwiftUI
 
 struct ContentView: View {
     
+    
     @State var selectedTab = 0
     @State private var isSettingPresented: Bool = false
+    @State private var isNewActivityPresented: Bool = false
     
     var body: some View {
         NavigationStack{
-            TabView(selection: $selectedTab) {
-                Tab("Activities", systemImage: "house.circle.fill", value: 0) {
-                    ActivitiesView()
-                    
+            ZStack(alignment: .bottomTrailing) {
+                TabView(selection: $selectedTab) {
+                    Tab("Activities", systemImage: "house.circle.fill", value: 0) {
+                        ActivitiesView()
+                        
+                    }
+                    Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
+                        Text("Hiii").themedBackground()
+                    }
+                    Tab("Test", systemImage: "house", value: 3){
+                        Test()
+                    }
                 }
-                Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
-                    Text("Hiii").themedBackground()
+                
+                NewActivityButton {
+                    isNewActivityPresented = true
                 }
-                Tab("Test", systemImage: "house", value: 3){
-                    Test()
+                .sheet(isPresented: $isNewActivityPresented){
+                    NewActivityView()
                 }
+                .padding(.trailing, 20)
+                .padding(.bottom, 60)
             }
             .navigationTitle(selectedTab == 1 ? "Statistics" : "MindPulse")
             .toolbar {

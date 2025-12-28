@@ -37,7 +37,7 @@ struct ThemeSelectorView: View {
             }
         }
         .background(themeManager.currentTheme.isDark ? Color.black : Color.white)
-        .animation(.easeInOut(duration: 0.3), value: themeManager.currentTheme.isDark)
+        .animation(.easeInOut(duration: 0.4), value: themeManager.currentTheme.isDark)
     }
 }
 
