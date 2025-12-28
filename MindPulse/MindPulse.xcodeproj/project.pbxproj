@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9DF4FA162F01A45000E5D3D7 /* ElegantEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 9DF4FA152F01A45000E5D3D7 /* ElegantEmojiPicker */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		9D2A0EE32ED5DC4000EAD793 /* MindPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DF4FA162F01A45000E5D3D7 /* ElegantEmojiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = MindPulse;
 			packageProductDependencies = (
+				9DF4FA152F01A45000E5D3D7 /* ElegantEmojiPicker */,
 			);
 			productName = MindPulse;
 			productReference = 9D2A0EE32ED5DC4000EAD793 /* MindPulse.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 9D2A0EDA2ED5DC4000EAD793;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9DF4FA142F01A45000E5D3D7 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9D2A0EE42ED5DC4000EAD793 /* Products */;
 			projectDirPath = "";
@@ -322,6 +331,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9DF4FA142F01A45000E5D3D7 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Finalet/Elegant-Emoji-Picker.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9DF4FA152F01A45000E5D3D7 /* ElegantEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9DF4FA142F01A45000E5D3D7 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */;
+			productName = ElegantEmojiPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9D2A0EDB2ED5DC4000EAD793 /* Project object */;
 }

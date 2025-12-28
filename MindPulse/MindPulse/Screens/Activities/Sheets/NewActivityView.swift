@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import ElegantEmojiPicker
 
 struct NewActivityView: View {
     
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
     
-    @State private var emoji: String = "🧘"
+    @State private var emoji: Emoji? = nil
     @State private var name: String = ""
     @State private var color: Color = .blue
     @State private var HRisActive: Bool = false
+    
+    @State private var isEmojiPickerPresented: Bool = false
     
     var cardBackgroundColor: Color {
          themeManager.currentTheme.isDark ? Color(.systemGray6) : Color.white
@@ -24,6 +27,7 @@ struct NewActivityView: View {
      var textColor: Color {
          themeManager.currentTheme.isDark ? .white : .black
      }
+    
     
     var body: some View {
         
@@ -64,7 +68,7 @@ struct NewActivityView: View {
             ScrollView{
                 VStack(spacing: 24) {
                     Button(action: {
-                        
+                        isEmojiPickerPresented.toggle()
                     }){
                         VStack(spacing: 12) {
                             ZStack{
@@ -72,7 +76,7 @@ struct NewActivityView: View {
                                     .stroke(Color.black, lineWidth: 2)
                                     .frame(width: 100, height: 100)
                                 
-                                Text(emoji)
+                                Text(emoji?.emoji ?? "")
                                     .font(.system(size: 50))
                             }
                             .padding(.top, 20)
@@ -87,6 +91,7 @@ struct NewActivityView: View {
                         .cornerRadius(20)
                         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     }
+                    .emojiPicker(isPresented: $isEmojiPickerPresented, selectedEmoji: $emoji, configuration: ElegantConfiguration(showRandom: false, showReset: false))
                 }
                 
                 TextField("Activity name", text: $name)
