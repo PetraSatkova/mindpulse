@@ -104,6 +104,9 @@ struct NewActivityView: View {
                     .cornerRadius(20)
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                 
+                // TODO delete later, test data formatter
+                Text(DurationFormatter.formatSeconds(seconds: 23798798))
+                
                 VStack(alignment: .leading, spacing: 10){
                     Text("Customization")
                         .font(.title2)
@@ -156,3 +159,4 @@ struct NewActivityView: View {
     }
         
 }
+
