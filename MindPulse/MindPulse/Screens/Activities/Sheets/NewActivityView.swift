@@ -91,7 +91,11 @@ struct NewActivityView: View {
                         .cornerRadius(20)
                         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     }
-                    .emojiPicker(isPresented: $isEmojiPickerPresented, selectedEmoji: $emoji, configuration: ElegantConfiguration(showRandom: false, showReset: false))
+                    .emojiPicker(
+                        isPresented: $isEmojiPickerPresented,
+                        selectedEmoji: $emoji,
+                        configuration: ElegantConfiguration(showRandom: false, showReset: false)
+                    )
                 }
                 
                 TextField("Activity name", text: $name)

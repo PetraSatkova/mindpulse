@@ -44,7 +44,9 @@
 		6811ECCD2F1F860700C04C59 /* Exceptions for "MindPulse" folder in "MindPulse Watch Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Database/ActivityModel.swift,
 				Database/Database.xcdatamodeld,
+				Database/RecordModel.swift,
 			);
 			target = 6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */;
 		};
