@@ -7,22 +7,73 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6811ECC12F1F85B600C04C59 /* MindPulse Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6811ECB72F1F85B500C04C59 /* MindPulse Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9DF4FA162F01A45000E5D3D7 /* ElegantEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 9DF4FA152F01A45000E5D3D7 /* ElegantEmojiPicker */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6811ECBF2F1F85B600C04C59 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D2A0EDB2ED5DC4000EAD793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6811ECB62F1F85B500C04C59;
+			remoteInfo = "MindPulse Watch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6811ECC52F1F85B600C04C59 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				6811ECC12F1F85B600C04C59 /* MindPulse Watch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		6811ECB72F1F85B500C04C59 /* MindPulse Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MindPulse Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D2A0EE32ED5DC4000EAD793 /* MindPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6811ECCD2F1F860700C04C59 /* Exceptions for "MindPulse" folder in "MindPulse Watch Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Database/Database.xcdatamodeld,
+			);
+			target = 6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		6811ECB82F1F85B500C04C59 /* MindPulse Watch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "MindPulse Watch Watch App";
+			sourceTree = "<group>";
+		};
 		9D2A0EE52ED5DC4000EAD793 /* MindPulse */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6811ECCD2F1F860700C04C59 /* Exceptions for "MindPulse" folder in "MindPulse Watch Watch App" target */,
+			);
 			path = MindPulse;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6811ECB42F1F85B500C04C59 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9D2A0EE02ED5DC4000EAD793 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				9D2A0EE52ED5DC4000EAD793 /* MindPulse */,
+				6811ECB82F1F85B500C04C59 /* MindPulse Watch Watch App */,
 				9D2A0EE42ED5DC4000EAD793 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				9D2A0EE32ED5DC4000EAD793 /* MindPulse.app */,
+				6811ECB72F1F85B500C04C59 /* MindPulse Watch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -53,6 +106,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6811ECC22F1F85B600C04C59 /* Build configuration list for PBXNativeTarget "MindPulse Watch Watch App" */;
+			buildPhases = (
+				6811ECB32F1F85B500C04C59 /* Sources */,
+				6811ECB42F1F85B500C04C59 /* Frameworks */,
+				6811ECB52F1F85B500C04C59 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6811ECB82F1F85B500C04C59 /* MindPulse Watch Watch App */,
+			);
+			name = "MindPulse Watch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "MindPulse Watch Watch App";
+			productReference = 6811ECB72F1F85B500C04C59 /* MindPulse Watch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		9D2A0EE22ED5DC4000EAD793 /* MindPulse */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9D2A0EEE2ED5DC4100EAD793 /* Build configuration list for PBXNativeTarget "MindPulse" */;
@@ -60,10 +135,12 @@
 				9D2A0EDF2ED5DC4000EAD793 /* Sources */,
 				9D2A0EE02ED5DC4000EAD793 /* Frameworks */,
 				9D2A0EE12ED5DC4000EAD793 /* Resources */,
+				6811ECC52F1F85B600C04C59 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6811ECC02F1F85B600C04C59 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				9D2A0EE52ED5DC4000EAD793 /* MindPulse */,
@@ -83,9 +160,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1640;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					6811ECB62F1F85B500C04C59 = {
+						CreatedOnToolsVersion = 26.2;
+					};
 					9D2A0EE22ED5DC4000EAD793 = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -109,11 +189,19 @@
 			projectRoot = "";
 			targets = (
 				9D2A0EE22ED5DC4000EAD793 /* MindPulse */,
+				6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6811ECB52F1F85B500C04C59 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9D2A0EE12ED5DC4000EAD793 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,6 +212,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6811ECB32F1F85B500C04C59 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9D2A0EDF2ED5DC4000EAD793 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -133,7 +228,81 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6811ECC02F1F85B600C04C59 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */;
+			targetProxy = 6811ECBF2F1F85B600C04C59 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		6811ECC32F1F85B600C04C59 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KR63WNJVMH;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "MindPulse Watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = school.MindPulse;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = school.MindPulse.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		6811ECC42F1F85B600C04C59 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KR63WNJVMH;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "MindPulse Watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = school.MindPulse;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = school.MindPulse.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
 		9D2A0EEC2ED5DC4100EAD793 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -312,6 +481,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6811ECC22F1F85B600C04C59 /* Build configuration list for PBXNativeTarget "MindPulse Watch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6811ECC32F1F85B600C04C59 /* Debug */,
+				6811ECC42F1F85B600C04C59 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9D2A0EDE2ED5DC4000EAD793 /* Build configuration list for PBXProject "MindPulse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
