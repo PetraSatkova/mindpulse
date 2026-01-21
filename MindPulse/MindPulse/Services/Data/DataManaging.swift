@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-protocol DataMananing {
+protocol DataManaging {
     var context: NSManagedObjectContext { get }
     
     func addActivity(newActivity: ActivityModel)

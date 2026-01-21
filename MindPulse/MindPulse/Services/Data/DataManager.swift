@@ -8,9 +8,9 @@
 import SwiftUI
 import CoreData
 
-class DataManager: DataMananing {
+class DataManager: DataManaging {
     
-    private let container = NSPersistentContainer(name: "Activities")
+    private let container = NSPersistentContainer(name: "Database")
     
     var context: NSManagedObjectContext {
         container.viewContext
@@ -69,23 +69,8 @@ class DataManager: DataMananing {
         
         guard let activityToDelete = activities.first else { return false }
         
-        // fetch and delete activitie's records
-        let recordRequest = NSFetchRequest<RecordEntity>(entityName: "RecordEntity")
-        recordRequest.predicate = NSPredicate(format: "activity.id == %@", activityId as CVarArg)
-        
-        var records: [RecordEntity] = []
-        
-        do {
-            records = try context.fetch(recordRequest)
-        } catch {
-            print("Cannot fetch data: \(error.localizedDescription)")
-        }
-        
-        guard records != [] else { return true }
-        
-        records.forEach { record in
-            context.delete(record)
-        }
+        // delete activity (records will be deleted automatically thanks to cascade delete rule on the relationship
+        context.delete(activityToDelete)
         
         save()
         return true
@@ -132,8 +117,6 @@ class DataManager: DataMananing {
                 durationSeconds: record.durationSeconds)
         }
     }
-    
-    
 }
 
 private extension DataManager {

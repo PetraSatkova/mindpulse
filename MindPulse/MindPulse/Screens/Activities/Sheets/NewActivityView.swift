@@ -9,13 +9,14 @@ import SwiftUI
 import ElegantEmojiPicker
 
 struct NewActivityView: View {
+    @State var viewModel: ActivitiesViewModel
     
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
     
     @State private var emoji: Emoji? = nil
     @State private var name: String = ""
-    @State private var color: Color = .blue
+    @State private var color: PaletteColor = .blue
     @State private var HRisActive: Bool = false
     
     @State private var isEmojiPickerPresented: Bool = false
@@ -27,13 +28,14 @@ struct NewActivityView: View {
      var textColor: Color {
          themeManager.currentTheme.isDark ? .white : .black
      }
-    
+
     
     var body: some View {
         
         VStack{
-            
+            // head
             HStack{
+                // dismiss
                 Button(action: {dismiss()}){
                     Image(systemName: "xmark")
                         .font(.system(size: 30, weight: .bold))
@@ -50,7 +52,10 @@ struct NewActivityView: View {
                     .foregroundColor(textColor) // Barva nadpisu
                 Spacer()
                 
+                // save
                 Button(action: {
+                    viewModel.addActivity(newActivity: createActivity())
+                    viewModel.fetchActivities()
                     dismiss()
                 }) {
                     Image(systemName: "checkmark")
@@ -66,6 +71,7 @@ struct NewActivityView: View {
               
             
             ScrollView{
+                // emoji
                 VStack(spacing: 24) {
                     Button(action: {
                         isEmojiPickerPresented.toggle()
@@ -98,20 +104,19 @@ struct NewActivityView: View {
                     )
                 }
                 
+                // activity name
                 TextField("Activity name", text: $name)
                     .padding()
                     .background(cardBackgroundColor)
                     .cornerRadius(20)
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                 
-                // TODO delete later, test data formatter
-                Text(DurationFormatter.formatSeconds(seconds: 23798798))
-                
                 VStack(alignment: .leading, spacing: 10){
                     Text("Customization")
                         .font(.title2)
                         .fontWeight(.bold)
                     
+                    // card color picker
                     HStack{
                         Text("Card color")
                             .fontWeight(.medium)
@@ -119,7 +124,7 @@ struct NewActivityView: View {
                         Spacer()
                         
                         Circle()
-                            .fill(color)
+                            .fill(color.swiftUIColor)
                             .frame(width: 30, height: 30)
                         
                         Button("Select"){
@@ -132,6 +137,7 @@ struct NewActivityView: View {
                     .cornerRadius(20)
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     
+                    // hr recording switch
                     HStack{
                         Text("HR recording")
                             .fontWeight(.medium)
@@ -157,6 +163,17 @@ struct NewActivityView: View {
         }
         .background(themeManager.currentTheme.isDark ? Color.black.ignoresSafeArea() : Color.white.ignoresSafeArea())
     }
-        
+    
+    private func createActivity() -> ActivityModel {
+        let activity = ActivityModel(
+            id: UUID(),
+            name: name,
+            emoji: emoji?.emoji ?? "👀",
+            color: color
+        )
+        return activity
+    }
 }
+
+
 

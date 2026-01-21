@@ -35,3 +35,7 @@ struct WatchActivitiesView: View {
         }
     }
 }
+
+#Preview {
+    WatchActivitiesView()
+}

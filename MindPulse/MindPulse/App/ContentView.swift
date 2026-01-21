@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    // init for viewModel that is passed around
+    var viewModel: ActivitiesViewModel = ActivitiesViewModel()
     
     @State var selectedTab = 0
     @State private var isSettingPresented: Bool = false
@@ -19,7 +20,7 @@ struct ContentView: View {
             ZStack(alignment: .bottomTrailing) {
                 TabView(selection: $selectedTab) {
                     Tab("Activities", systemImage: "house.circle.fill", value: 0) {
-                        ActivitiesView()
+                        ActivitiesView(viewModel: viewModel)
                         
                     }
                     Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
@@ -29,12 +30,12 @@ struct ContentView: View {
                         Test()
                     }
                 }
-                
+                // plus button
                 NewActivityButton {
                     isNewActivityPresented = true
                 }
                 .sheet(isPresented: $isNewActivityPresented){
-                    NewActivityView().presentationDetents([.fraction(0.75), .large])
+                    NewActivityView(viewModel: viewModel).presentationDetents([.fraction(0.75), .large])
                 }
                 .padding(.trailing, 20)
                 .padding(.bottom, 60)
@@ -42,6 +43,7 @@ struct ContentView: View {
             .navigationTitle(selectedTab == 1 ? "Statistics" : "MindPulse")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing){
+                    // settings button
                     Button(action: {
                         isSettingPresented = true
                     }) {

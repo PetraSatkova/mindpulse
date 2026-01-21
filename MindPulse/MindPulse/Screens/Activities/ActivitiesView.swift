@@ -9,17 +9,40 @@ import SwiftUI
 
 struct ActivitiesView: View{
     
+    @State var viewModel: ActivitiesViewModel
+    
+    init(viewModel: ActivitiesViewModel) {
+        self.viewModel = viewModel
+    }
+    
     //@EnvironmentObject var themeManager: ThemeManager
     //@StateObject var themeManager = ThemeManager()
     
     var body: some View{
         NavigationStack{
-            VStack{
-                Text("Hello World")
+            List {
+                ForEach(viewModel.state.activities) { activity in
+                    ActivityCard(
+                        emoji: activity.emoji,
+                        title: activity.name,
+                        cardColor: activity.color.swiftUIColor
+                    )
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            viewModel.deleteActivity(activityId: activity.id)
+                        } label: {
+                            Image(systemName: "trash.fill")
+                                .background()
+                        }
+
+                    }
+                }
             }
-            .navigationTitle("MindPulse")
         }
         .themedBackground()
+        .onAppear {
+            viewModel.fetchActivities()
+        }
     }
 }
 

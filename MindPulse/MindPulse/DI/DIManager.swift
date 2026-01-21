@@ -51,9 +51,9 @@ extension DIContainer {
 
 
 
-//        register(DataManaging.self, cached: true) {
-//            DataManager()
-//        }
+        register(DataManaging.self, cached: true) {
+            DataManager()
+        }
 //
 //        #if os(iOS)
 //        register(WatchConnector.self, cached: false) {

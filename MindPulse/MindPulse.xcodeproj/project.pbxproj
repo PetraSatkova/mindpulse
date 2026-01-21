@@ -46,7 +46,10 @@
 			membershipExceptions = (
 				Database/ActivityModel.swift,
 				Database/Database.xcdatamodeld,
+				Database/HeartRateSampleModel.swift,
 				Database/RecordModel.swift,
+				Services/Data/DataManager.swift,
+				Services/Data/DataManaging.swift,
 			);
 			target = 6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */;
 		};
@@ -92,7 +95,6 @@
 			children = (
 				9D2A0EE52ED5DC4000EAD793 /* MindPulse */,
 				6811ECB82F1F85B500C04C59 /* MindPulse Watch Watch App */,
-				9D7E71472F20362E004BCD3B /* Frameworks */,
 				9D2A0EE42ED5DC4000EAD793 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,13 +106,6 @@
 				6811ECB72F1F85B500C04C59 /* MindPulse Watch Watch App.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		9D7E71472F20362E004BCD3B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,7 +271,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
 		};
@@ -309,7 +304,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
 		};
