@@ -17,7 +17,7 @@ struct ActivityCard: View{
         HStack(){
             Text(emoji).font(.system(size: 65))
                 .padding(.leading,16)
-            Text(title).font(.system(size: 24)).fontWeight(.medium)
+            Text(title).font(.system(size: 24)).fontWeight(.medium).foregroundStyle(.black)
         }
         .frame(maxWidth: 350, alignment: .leading)
         .frame(height: 100)

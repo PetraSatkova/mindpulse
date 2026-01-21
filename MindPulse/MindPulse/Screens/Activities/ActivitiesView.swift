@@ -22,19 +22,21 @@ struct ActivitiesView: View{
         NavigationStack{
             List {
                 ForEach(viewModel.state.activities) { activity in
-                    ActivityCard(
-                        emoji: activity.emoji,
-                        title: activity.name,
-                        cardColor: activity.color.swiftUIColor
-                    )
-                    .swipeActions {
-                        Button(role: .destructive) {
-                            viewModel.deleteActivity(activityId: activity.id)
-                        } label: {
-                            Image(systemName: "trash.fill")
-                                .background()
+                    NavigationLink(destination: ActivitySetupView()) {
+                        ActivityCard(
+                            emoji: activity.emoji,
+                            title: activity.name,
+                            cardColor: activity.color.swiftUIColor
+                        )
+                        .swipeActions {
+                            Button(role: .destructive) {
+                                viewModel.deleteActivity(activityId: activity.id)
+                            } label: {
+                                Image(systemName: "trash.fill")
+                                    .background()
+                            }
+                            
                         }
-
                     }
                 }
             }
