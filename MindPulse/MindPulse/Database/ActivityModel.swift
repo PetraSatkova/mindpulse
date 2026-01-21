@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-import ElegantEmojiPicker
+//import ElegantEmojiPicker
 
 struct ActivityModel: Identifiable {
     public var id: UUID
     public var name: String
-    public var emoji: Emoji
+    public var emoji: String
     public var color: PaletteColor
 }
 
@@ -32,3 +32,38 @@ enum PaletteColor: String, CaseIterable {
     }
 }
 
+//SampleData for Watch design testing
+extension ActivityModel {
+    static let sampleData: [ActivityModel] = [
+        ActivityModel(
+            id: UUID(),
+            name: "Meditation",
+            emoji: "🧘‍♀️",
+            color: .orange
+        ),
+        ActivityModel(
+            id: UUID(),
+            name: "Running",
+            emoji: "🏃‍♂️",
+            color: .blue
+        ),
+        ActivityModel(
+            id: UUID(),
+            name: "Deep Performance Work",
+            emoji: "💻",
+            color: .purple
+        ),
+        ActivityModel(
+            id: UUID(),
+            name: "Reading",
+            emoji: "📚",
+            color: .green
+        ),
+        ActivityModel(
+            id: UUID(),
+            name: "Sleep",
+            emoji: "😴",
+            color: .gray
+        )
+    ]
+}

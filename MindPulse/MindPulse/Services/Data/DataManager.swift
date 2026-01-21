@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CoreData
-import ElegantEmojiPicker
 
 class DataManager: DataMananing {
     
@@ -30,7 +29,7 @@ class DataManager: DataMananing {
         let activityEntity = ActivityEntity(context: context)
         activityEntity.id = newActivity.id
         activityEntity.name = newActivity.name
-        activityEntity.emoji = newActivity.emoji.emoji
+        activityEntity.emoji = newActivity.emoji
         activityEntity.colorKey = newActivity.color.rawValue
         
         save()
@@ -49,7 +48,7 @@ class DataManager: DataMananing {
             ActivityModel(
                 id: entity.id ?? UUID(),
                 name: entity.name ?? "no name",
-                emoji: ElegantEmojiPicker.getAllEmoji().first { $0.emoji == entity.emoji ?? "👀"} ?? ElegantEmojiPicker.getAllEmoji().first!,
+                emoji: entity.emoji ?? "👀",
                 color: PaletteColor(rawValue: entity.colorKey ?? "blue") ?? PaletteColor.blue
             )
         }

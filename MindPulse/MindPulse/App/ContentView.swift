@@ -34,7 +34,7 @@ struct ContentView: View {
                     isNewActivityPresented = true
                 }
                 .sheet(isPresented: $isNewActivityPresented){
-                    NewActivityView().presentationDetents([.fraction(0.61), .large])
+                    NewActivityView().presentationDetents([.fraction(0.75), .large])
                 }
                 .padding(.trailing, 20)
                 .padding(.bottom, 60)
