@@ -15,7 +15,9 @@ struct ActivitiesView: View{
     var body: some View{
         NavigationStack{
             VStack{
-                Text("Hello World")
+                NavigationLink(destination: ActivitySetupView()){
+                    ActivityCard(emoji: "🧘‍♀️", title: "Try", cardColor: PaletteColor.orange.swiftUIColor)
+                }
             }
             .navigationTitle("MindPulse")
         }
