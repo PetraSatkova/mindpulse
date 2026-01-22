@@ -453,7 +453,7 @@
 				CODE_SIGN_ENTITLEMENTS = MindPulse/MindPulse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3DQ9K23Q5V;
+				DEVELOPMENT_TEAM = KR63WNJVMH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
@@ -483,7 +483,7 @@
 				CODE_SIGN_ENTITLEMENTS = MindPulse/MindPulse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3DQ9K23Q5V;
+				DEVELOPMENT_TEAM = KR63WNJVMH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";

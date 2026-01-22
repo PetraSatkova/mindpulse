@@ -11,6 +11,8 @@ struct ActivitySetupView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State var selectedMins: Int = 10
     
+    @State private var navigateToRunning = false
+    
     var activity: ActivityModel
     
     var body: some View {
@@ -19,10 +21,16 @@ struct ActivitySetupView: View {
                 ActivityIconView(themeManager: themeManager, activity: activity)
                 ActivityTimePicker(selectedMins: $selectedMins, themeManager: themeManager, activity: activity)
                 
-                Button("Dive in"){
-                    
-                }
-                .buttonStyle(.primary)
+                
+                Button("Dive In"){
+                    navigateToRunning.toggle()
+                }.buttonStyle(.primary)
+                    .navigationDestination(isPresented: $navigateToRunning) {
+                        ActivityRunningView(activity: activity, totalTime: selectedMins)
+                            .navigationBarBackButtonHidden(true)
+                            .themedBackground()
+                    }
+               
             }
         }
         .navigationTitle(activity.name)
