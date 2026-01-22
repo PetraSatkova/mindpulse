@@ -14,10 +14,12 @@ class PhoneConnector: NSObject, WCSessionDelegate, PhoneConnecting {
     
     private var session: WCSession
     private var dataManager: DataManaging
+    private var heartRateManager: HeartRateManaging
     
-    init(session: WCSession = .default, dataManager: DataManaging) {
+    init(session: WCSession = .default, dataManager: DataManaging, heartRateManager: HeartRateManaging) {
         self.session = session
         self.dataManager = dataManager
+        self.heartRateManager = heartRateManager
         super.init()
         self.session.delegate = self
         self.session.activate()
@@ -27,36 +29,19 @@ class PhoneConnector: NSObject, WCSessionDelegate, PhoneConnecting {
         
     }
     
-    // transferUserInfo
-    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-//        let place = CoffeePlace(
-//            id: message["id"] as? UUID ?? UUID(),
-//            name : message["name"] as? String ?? "Unknown",
-//            placeType: PlaceType(rawValue: message["placeType"] as? Int16 ?? 0) ?? .Coffee,
-//            rating: message["rating"] as? Double ?? 0.0,
-//            coordinates: .init(
-//                latitude: message["lat"] as? Double ?? 0.0,
-//                longitude: message["lon"] as? Double ?? 0.0)
-//        )
-//        
-//        addNewPlace(place: place)
-//        
-//        DispatchQueue.main.async {
-//            
-//        }
+        let activity = ActivityModel(
+            id: message["id"] as? UUID ?? UUID(),
+            name: message["name"] as? String ?? "No name",
+            emoji: message["emoji"] as? String ?? "👀",
+            color: PaletteColor(rawValue: message["color"] as? String ?? "blue") ?? .blue,
+            hrRecording: message["hrRecording"] as? Bool ?? true
+        )
+        
+        dataManager.addActivity(newActivity: activity)
     }
     
-    func addNewPlace(){
-//        let cp = PlaceEntity(context: dataManager.context)
-//        
-//        cp.id = place.id
-//        cp.name = place.name
-//        cp.type = place.placeType.rawValue
-//        cp.rating = place.rating
-//        cp.lat = place.coordinates.latitude
-//        cp.lon = place.coordinates.longitude
-//        
-//        dataManager.savePlace(place: cp)
+    func transferBatchOfSamples(payload: HeartRateBatchDTO) {
+        // TODO ako sa to posiela?
     }
 }

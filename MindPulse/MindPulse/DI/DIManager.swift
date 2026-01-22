@@ -6,6 +6,7 @@
 //
 import Foundation
 
+@available(iOS 26.0, *)
 final class DIContainer {
     typealias Resolver = () -> Any
 
@@ -13,6 +14,7 @@ final class DIContainer {
     private var cache = [String: Any]()
 
     static let shared = DIContainer()
+    private var factories: [String: () -> Any] = [:]
 
     init() {
         registerDependencies()
@@ -26,7 +28,7 @@ final class DIContainer {
             cache[key] = service()
         }
     }
-
+    
     func resolve<T>() -> T {
         let key = String(reflecting: T.self)
 
@@ -44,28 +46,43 @@ final class DIContainer {
 
         fatalError("🥣 \(key) has not been registered.")
     }
+    
+    // HeartManager must be a factory, one manager instance per workout
+    func registerFactory<T>(_ type: T.Type, factory: @escaping () -> T) {
+        factories[String(reflecting: type)] = factory
+    }
+
+    func resolveFactory<T>() -> T {
+        let key = String(reflecting: T.self)
+        guard let factory = factories[key], let instance = factory() as? T else {
+            fatalError("No registration for \(T.self)")
+        }
+        return instance
+    }
 }
 
+@available(iOS 26.0, *)
 extension DIContainer {
     func registerDependencies() {
-
-
 
         register(DataManaging.self, cached: true) {
             DataManager()
         }
-//
-//        #if os(iOS)
-//        register(WatchConnector.self, cached: false) {
-//            WatchConnector()
-//        }
-//        #endif
-//
-//        #if os(watchOS)
-//        register(PhoneConnector.self, cached: false) {
-//            PhoneConnector(dataManager: DIContainer.shared.resolve())
-//        }
-//        #endif
+        
+        registerFactory(HeartRateManaging.self) {
+            HeartRateManager()
+        }
+
+        #if os(iOS)
+        register(WatchConnecting.self, cached: false) {
+            WatchConnector()
+        }
+        #endif
+
+        #if os(watchOS)
+        register(PhoneConnecting.self, cached: false) {
+            PhoneConnector(dataManager: DIContainer.shared.resolve(), heartRateManager: DIContainer.shared.resolveFactory())
+        }
+        #endif
     }
 }
-

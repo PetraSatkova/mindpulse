@@ -24,13 +24,14 @@ class DataManager: DataManaging {
         }
     }
     
-    
+    // activities
     func addActivity(newActivity: ActivityModel) {
         let activityEntity = ActivityEntity(context: context)
         activityEntity.id = newActivity.id
         activityEntity.name = newActivity.name
         activityEntity.emoji = newActivity.emoji
         activityEntity.colorKey = newActivity.color.rawValue
+        activityEntity.hrRecording = newActivity.hrRecording
         
         save()
     }
@@ -49,7 +50,8 @@ class DataManager: DataManaging {
                 id: entity.id ?? UUID(),
                 name: entity.name ?? "no name",
                 emoji: entity.emoji ?? "👀",
-                color: PaletteColor(rawValue: entity.colorKey ?? "blue") ?? PaletteColor.blue
+                color: PaletteColor(rawValue: entity.colorKey ?? "blue") ?? PaletteColor.blue,
+                hrRecording: false
             )
         }
     }
@@ -69,13 +71,14 @@ class DataManager: DataManaging {
         
         guard let activityToDelete = activities.first else { return false }
         
-        // delete activity (records will be deleted automatically thanks to cascade delete rule on the relationship
+        // delete activity (records will be deleted automatically thanks to cascade delete rule on the relationship)
         context.delete(activityToDelete)
         
         save()
         return true
     }
     
+    // records
     func addRecord(activityId: UUID, record: RecordModel) {
         let request = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
         request.predicate = NSPredicate(format: "id == %@", activityId as CVarArg)
@@ -116,6 +119,14 @@ class DataManager: DataManaging {
                 date: record.date ?? Date(),
                 durationSeconds: record.durationSeconds)
         }
+    }
+    
+    // heartRate samples
+    // call it from watch connector by did receive user info
+    func addHeartRateSamples(samples: HeartRateBatchDTO) {
+        // TODO add record, add heart rate sample entities
+        
+        save()
     }
 }
 

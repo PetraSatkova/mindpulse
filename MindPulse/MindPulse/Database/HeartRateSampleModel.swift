@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct HeartRateSampleModel: Identifiable {
+struct HeartRateSampleModel: Identifiable, Codable {
     var id: UUID
     var bpm: Double
+    var timestamp: Date
 }

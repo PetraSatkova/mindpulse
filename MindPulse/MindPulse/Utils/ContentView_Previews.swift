@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct ContentView_Previews: PreviewProvider {
 
     static var previews: some View {

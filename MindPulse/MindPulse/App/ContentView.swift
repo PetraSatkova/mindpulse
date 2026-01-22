@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct ContentView: View {
     // init for viewModel that is passed around
     var viewModel: ActivitiesViewModel = ActivitiesViewModel()
@@ -62,5 +63,9 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    if #available(iOS 26.0, *) {
+        ContentView()
+    } else {
+        // Fallback on earlier versions
+    }
 }

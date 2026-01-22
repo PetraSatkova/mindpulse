@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(iOS 26.0, *)
 @Observable
 class ActivitiesViewModel {
     var state: ActivitiesState = ActivitiesState()
@@ -18,6 +19,7 @@ class ActivitiesViewModel {
     }
 }
 
+@available(iOS 26.0, *)
 extension ActivitiesViewModel {
     
     func fetchActivities() {

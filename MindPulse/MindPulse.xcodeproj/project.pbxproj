@@ -48,16 +48,30 @@
 				Database/Database.xcdatamodeld,
 				Database/HeartRateSampleModel.swift,
 				Database/RecordModel.swift,
+				DI/DIManager.swift,
+				DI/Injected.swift,
 				Services/Data/DataManager.swift,
 				Services/Data/DataManaging.swift,
+				Services/Health/HeartRateManager.swift,
+				Services/Health/HeartRateManaging.swift,
 			);
 			target = 6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */;
+		};
+		6811EF572F228B8B00C04C59 /* Exceptions for "MindPulse Watch Watch App" folder in "MindPulse" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Service/HeartRateBatchDTO.swift,
+			);
+			target = 9D2A0EE22ED5DC4000EAD793 /* MindPulse */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6811ECB82F1F85B500C04C59 /* MindPulse Watch Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6811EF572F228B8B00C04C59 /* Exceptions for "MindPulse Watch Watch App" folder in "MindPulse" target */,
+			);
 			path = "MindPulse Watch Watch App";
 			sourceTree = "<group>";
 		};
@@ -247,12 +261,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MindPulse Watch Watch App/MindPulse Watch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KR63WNJVMH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "MindPulse Watch";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = school.MindPulse;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -280,12 +296,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MindPulse Watch Watch App/MindPulse Watch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KR63WNJVMH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "MindPulse Watch";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = school.MindPulse;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -432,11 +450,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MindPulse/MindPulse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = KR63WNJVMH;
+				DEVELOPMENT_TEAM = 3DQ9K23Q5V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -460,11 +480,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MindPulse/MindPulse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = KR63WNJVMH;
+				DEVELOPMENT_TEAM = 3DQ9K23Q5V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

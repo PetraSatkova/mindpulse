@@ -11,10 +11,15 @@ import CoreData
 protocol DataManaging {
     var context: NSManagedObjectContext { get }
     
+    // activities
     func addActivity(newActivity: ActivityModel)
     func fetchAllActivities() -> [ActivityModel]
     func deleteActivity(activityId: UUID) -> Bool
     
+    // records
     func addRecord(activityId: UUID, record: RecordModel)
     func fetchRecordsByActivityId(activityId: UUID) -> [RecordModel]
+    
+    // heart rate samples
+    func addHeartRateSamples(samples: HeartRateBatchDTO)
 }

@@ -3,6 +3,7 @@
     <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="class">
         <attribute name="colorKey" optional="YES" attributeType="String"/>
         <attribute name="emoji" optional="YES" attributeType="String"/>
+        <attribute name="hrRecording" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="record" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="RecordEntity" inverseName="activity" inverseEntity="RecordEntity"/>
@@ -16,6 +17,7 @@
     <entity name="RecordEntity" representedClassName="RecordEntity" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="durationSeconds" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="hrRecording" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActivityEntity" inverseName="record" inverseEntity="ActivityEntity"/>
         <relationship name="heartRateSample" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="HeartRateSampleEntity" inverseName="record" inverseEntity="HeartRateSampleEntity"/>

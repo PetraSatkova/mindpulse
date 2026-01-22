@@ -13,6 +13,7 @@ struct ActivityModel: Identifiable {
     public var name: String
     public var emoji: String
     public var color: PaletteColor
+    public var hrRecording: Bool
 }
 
 enum PaletteColor: String, CaseIterable {
@@ -39,31 +40,36 @@ extension ActivityModel {
             id: UUID(),
             name: "Meditation",
             emoji: "🧘‍♀️",
-            color: .orange
+            color: .orange,
+            hrRecording: false
         ),
         ActivityModel(
             id: UUID(),
             name: "Running",
             emoji: "🏃‍♂️",
-            color: .blue
+            color: .blue,
+            hrRecording: false
         ),
         ActivityModel(
             id: UUID(),
             name: "Deep Performance Work",
             emoji: "💻",
-            color: .purple
+            color: .purple,
+            hrRecording: false
         ),
         ActivityModel(
             id: UUID(),
             name: "Reading",
             emoji: "📚",
-            color: .green
+            color: .green,
+            hrRecording: false
         ),
         ActivityModel(
             id: UUID(),
             name: "Sleep",
             emoji: "😴",
-            color: .gray
+            color: .gray,
+            hrRecording: false
         )
     ]
 }

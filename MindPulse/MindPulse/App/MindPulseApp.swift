@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 @main
 struct MindPulseApp: App {
     @StateObject private var themeManager = ThemeManager()

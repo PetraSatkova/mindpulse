@@ -8,11 +8,14 @@
 import SwiftUI
 import ElegantEmojiPicker
 
+@available(iOS 26.0, *)
 struct NewActivityView: View {
     @State var viewModel: ActivitiesViewModel
     
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
+    
+    var watchConnector: WatchConnecting = DIContainer.shared.resolve()
     
     @State private var emoji: Emoji? = nil
     @State private var name: String = ""
@@ -54,8 +57,10 @@ struct NewActivityView: View {
                 
                 // save
                 Button(action: {
-                    viewModel.addActivity(newActivity: createActivity())
-                    viewModel.fetchActivities()
+                    let newActivity: ActivityModel = createActivity() // create new activity model
+                    viewModel.addActivity(newActivity: newActivity)   // save to core data
+                    watchConnector.sendActivity(activity: newActivity) // send to watch
+                    viewModel.fetchActivities() 
                     dismiss()
                 }) {
                     Image(systemName: "checkmark")
@@ -185,7 +190,8 @@ struct NewActivityView: View {
             id: UUID(),
             name: name,
             emoji: emoji?.emoji ?? "👀",
-            color: color
+            color: color,
+            hrRecording: HRisActive
         )
         return activity
     }
