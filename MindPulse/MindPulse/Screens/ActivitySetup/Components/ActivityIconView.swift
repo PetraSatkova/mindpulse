@@ -10,6 +10,7 @@ import SwiftUI
 struct ActivityIconView: View {
     
     var themeManager: ThemeManager
+    var activity: ActivityModel
     
     var cardBackgroundColor: Color {
          themeManager.currentTheme.isDark ? Color(.systemGray6) : Color.white
@@ -24,7 +25,7 @@ struct ActivityIconView: View {
                 .background(cardBackgroundColor)
                 .clipShape(.circle)
             
-            Text("🧘‍♀️")
+            Text(activity.emoji)
                 .font(.system(size: 100))
         }
         .padding(.top, 20)

@@ -13,6 +13,8 @@ struct ActivityTimePicker: View {
     var themeManager: ThemeManager
     private let presets = [5, 10, 15, 20]
     
+    var activity: ActivityModel
+    
     var cardBackgroundColor: Color {
          themeManager.currentTheme.isDark ? Color(.systemGray6) : Color.white
      }

@@ -20,25 +20,27 @@ struct ActivitiesView: View{
     
     var body: some View{
         NavigationStack{
-            List {
-                ForEach(viewModel.state.activities) { activity in
-                    NavigationLink(destination: ActivitySetupView()) {
-                        ActivityCard(
-                            emoji: activity.emoji,
-                            title: activity.name,
-                            cardColor: activity.color.swiftUIColor
-                        )
-                        .swipeActions {
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(viewModel.state.activities) { activity in
+                        NavigationLink(destination: ActivitySetupView(activity: activity)) {
+                            ActivityCard(
+                                emoji: activity.emoji,
+                                title: activity.name,
+                                cardColor: activity.color.swiftUIColor
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .contextMenu {
                             Button(role: .destructive) {
                                 viewModel.deleteActivity(activityId: activity.id)
                             } label: {
-                                Image(systemName: "trash.fill")
-                                    .background()
+                                Label("Smazat", systemImage: "trash")
                             }
-                            
                         }
                     }
                 }
+                .padding()
             }
         }
         .themedBackground()

@@ -11,13 +11,13 @@ struct ActivitySetupView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State var selectedMins: Int = 10
     
+    var activity: ActivityModel
+    
     var body: some View {
         Group{
             VStack{
-         
-                ActivityIconView(themeManager: themeManager)
-                ActivityTimePicker(selectedMins: $selectedMins, themeManager: themeManager)
-    
+                ActivityIconView(themeManager: themeManager, activity: activity)
+                ActivityTimePicker(selectedMins: $selectedMins, themeManager: themeManager, activity: activity)
                 
                 Button("Dive in"){
                     
@@ -25,7 +25,7 @@ struct ActivitySetupView: View {
                 .buttonStyle(.primary)
             }
         }
-        .navigationTitle("Meditation")
+        .navigationTitle(activity.name)
         .themedBackground()
     }
 }

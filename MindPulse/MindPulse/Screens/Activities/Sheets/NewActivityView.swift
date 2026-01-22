@@ -22,13 +22,13 @@ struct NewActivityView: View {
     @State private var isEmojiPickerPresented: Bool = false
     
     var cardBackgroundColor: Color {
-         themeManager.currentTheme.isDark ? Color(.systemGray6) : Color.white
-     }
-     
-     var textColor: Color {
-         themeManager.currentTheme.isDark ? .white : .black
-     }
-
+        themeManager.currentTheme.isDark ? Color(.systemGray6) : Color.white
+    }
+    
+    var textColor: Color {
+        themeManager.currentTheme.isDark ? .white : .black
+    }
+    
     
     var body: some View {
         
@@ -68,7 +68,7 @@ struct NewActivityView: View {
             }
             .padding(.horizontal)
             .padding(.top, 20)
-              
+            
             
             ScrollView{
                 // emoji
@@ -111,26 +111,42 @@ struct NewActivityView: View {
                     .cornerRadius(20)
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                 
+                
+                //Color picker
                 VStack(alignment: .leading, spacing: 10){
                     Text("Customization")
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    // card color picker
-                    HStack{
+                    VStack(alignment: .leading, spacing: 12) {
                         Text("Card color")
                             .fontWeight(.medium)
                         
-                        Spacer()
-                        
-                        Circle()
-                            .fill(color.swiftUIColor)
-                            .frame(width: 30, height: 30)
-                        
-                        Button("Select"){
-                            
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                ForEach(PaletteColor.allCases, id: \.self) { paletteColor in
+                                    Button(action: {
+                                        withAnimation(.spring()) {
+                                            self.color = paletteColor
+                                        }
+                                    }) {
+                                        ZStack {
+                                            if self.color == paletteColor {
+                                                Circle()
+                                                    .stroke(textColor.opacity(0.5), lineWidth: 2)
+                                                    .frame(width: 38, height: 38)
+                                            }
+                                            
+                                            Circle()
+                                                .fill(paletteColor.swiftUIColor)
+                                                .frame(width: 30, height: 30)
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 2)
                         }
-                        .foregroundColor(.blue)
                     }
                     .padding()
                     .background(cardBackgroundColor)
@@ -174,6 +190,3 @@ struct NewActivityView: View {
         return activity
     }
 }
-
-
-
