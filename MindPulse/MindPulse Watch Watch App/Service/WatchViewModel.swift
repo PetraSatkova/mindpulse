@@ -31,6 +31,11 @@ class WatchViewModel {
                 )
             )
         }
+        
+        // Reloads activities when notified of updates
+        NotificationCenter.default.addObserver(forName: Notification.Name("ActivitiesUpdated"), object: nil, queue: .main) { [weak self] _ in
+            self?.fetchActivities()
+        }
     }
     
     func fetchActivities() {

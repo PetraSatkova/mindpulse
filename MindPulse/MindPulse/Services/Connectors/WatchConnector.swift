@@ -44,13 +44,15 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
         }
     }
     
+    // Sends the activity data to the watch app
     func sendActivity(activity: ActivityModel) {
         if session.isReachable {
             var message: [String: Any] = [
-                "id": activity.id,
+                "action": "add",
+                "id": activity.id.uuidString,
                 "name": activity.name,
                 "emoji": activity.emoji,
-                "color": activity.color,
+                "color": activity.color.rawValue,
                 "hrRecording": activity.hrRecording
             ]
             
@@ -58,6 +60,22 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
                 print("Sending error: \(error.localizedDescription)")
             }
             
+        } else {
+            print("Session is not reachable")
+        }
+    }
+    
+    // Sends a delete command for the activity to the watch app
+    func deleteActivity(activityId: UUID) {
+        if session.isReachable {
+            let message: [String: Any] = [
+                "action": "delete",
+                "id": activityId.uuidString
+            ]
+            
+            session.sendMessage(message, replyHandler: nil) { error in
+                print("Sending error: \(error.localizedDescription)")
+            }
         } else {
             print("Session is not reachable")
         }
