@@ -54,6 +54,7 @@
 				Services/Data/DataManaging.swift,
 				Services/Health/HeartRateManager.swift,
 				Services/Health/HeartRateManaging.swift,
+				UIComponents/PrimaryButtonStyle.swift,
 			);
 			target = 6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */;
 		};

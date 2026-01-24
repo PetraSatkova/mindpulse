@@ -10,6 +10,7 @@ import SwiftUI
 struct WatchActivitiesView: View {
     
     let activities = ActivityModel.sampleData
+    @State var viewModel: WatchViewModel
     
     var body: some View {
         NavigationStack {
@@ -37,5 +38,5 @@ struct WatchActivitiesView: View {
 }
 
 #Preview {
-    WatchActivitiesView()
+    WatchActivitiesView(viewModel: WatchViewModel())
 }
