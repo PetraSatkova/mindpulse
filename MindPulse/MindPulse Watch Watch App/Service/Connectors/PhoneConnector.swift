@@ -29,16 +29,30 @@ class PhoneConnector: NSObject, WCSessionDelegate, PhoneConnecting {
         
     }
     
+    // Handles incoming messages to add or delete activities
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        let activity = ActivityModel(
-            id: message["id"] as? UUID ?? UUID(),
-            name: message["name"] as? String ?? "No name",
-            emoji: message["emoji"] as? String ?? "👀",
-            color: PaletteColor(rawValue: message["color"] as? String ?? "blue") ?? .blue,
-            hrRecording: message["hrRecording"] as? Bool ?? true
-        )
+        guard let action = message["action"] as? String else { return }
         
-        dataManager.addActivity(newActivity: activity)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if action == "add" {
+                let activity = ActivityModel(
+                    id: UUID(uuidString: message["id"] as? String ?? "") ?? UUID(),
+                    name: message["name"] as? String ?? "No name",
+                    emoji: message["emoji"] as? String ?? "👀",
+                    color: PaletteColor(rawValue: message["color"] as? String ?? "blue") ?? .blue,
+                    hrRecording: message["hrRecording"] as? Bool ?? true
+                )
+                self.dataManager.addActivity(newActivity: activity)
+            } else if action == "delete" {
+                if let idString = message["id"] as? String, let id = UUID(uuidString: idString) {
+                    _ = self.dataManager.deleteActivity(activityId: id)
+                }
+            }
+            
+            NotificationCenter.default.post(name: Notification.Name("ActivitiesUpdated"), object: nil)
+        }
     }
     
     func transferBatchOfSamples(payload: HeartRateBatchDTO) {

@@ -25,15 +25,33 @@ class DataManager: DataManaging {
     }
     
     // activities
+    
+    // Adds or updates an activity in Core Data to prevent duplicates
     func addActivity(newActivity: ActivityModel) {
-        let activityEntity = ActivityEntity(context: context)
-        activityEntity.id = newActivity.id
-        activityEntity.name = newActivity.name
-        activityEntity.emoji = newActivity.emoji
-        activityEntity.colorKey = newActivity.color.rawValue
-        activityEntity.hrRecording = newActivity.hrRecording
+        let request = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
+        request.predicate = NSPredicate(format: "id == %@", newActivity.id as CVarArg)
         
-        save()
+        let context = self.context
+        var activityEntity: ActivityEntity
+        
+        do {
+            let results = try context.fetch(request)
+            if let existing = results.first {
+                activityEntity = existing
+            } else {
+                activityEntity = ActivityEntity(context: context)
+                activityEntity.id = newActivity.id
+            }
+            
+            activityEntity.name = newActivity.name
+            activityEntity.emoji = newActivity.emoji
+            activityEntity.colorKey = newActivity.color.rawValue
+            activityEntity.hrRecording = newActivity.hrRecording
+            
+            save()
+        } catch {
+            print("Error checking for existing activity: \(error)")
+        }
     }
     
     func fetchAllActivities() -> [ActivityModel] {
@@ -56,6 +74,7 @@ class DataManager: DataManaging {
         }
     }
     
+    // Sends a delete command for the activity to the watch app
     func deleteActivity(activityId: UUID) -> Bool {
         // fetch activity
         let activityRequest = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
@@ -67,12 +86,15 @@ class DataManager: DataManaging {
             activities = try context.fetch(activityRequest)
         } catch {
             print("Cannot fetch data: \(error.localizedDescription)")
+            return false
         }
         
-        guard let activityToDelete = activities.first else { return false }
+        guard !activities.isEmpty else { return false }
         
-        // delete activity (records will be deleted automatically thanks to cascade delete rule on the relationship)
-        context.delete(activityToDelete)
+        // Delete ALL matching activities (to clean up any legacy duplicates)
+        for activity in activities {
+            context.delete(activity)
+        }
         
         save()
         return true

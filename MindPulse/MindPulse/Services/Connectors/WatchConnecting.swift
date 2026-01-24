@@ -10,4 +10,5 @@ import WatchConnectivity
 protocol WatchConnecting {
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any])
     func sendActivity(activity: ActivityModel)
+    func deleteActivity(activityId: UUID)
 }

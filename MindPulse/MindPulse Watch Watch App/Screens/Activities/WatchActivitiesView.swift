@@ -13,9 +13,10 @@ struct WatchActivitiesView: View {
     @State var viewModel: WatchViewModel
     
     var body: some View {
+        let activities = viewModel.state.activities
         NavigationStack {
             ScrollView {
-                LazyVStack(spacing: -20) {
+                VStack(spacing: -20) {
                     ForEach(Array(activities.enumerated()), id: \.element.id) { index, activity in
                         WatchActivityCard(activity: activity)
                             .containerRelativeFrame(.vertical, count: 1, spacing: 0)
@@ -33,6 +34,9 @@ struct WatchActivitiesView: View {
             }
             .scrollTargetBehavior(.viewAligned)
             .navigationTitle("MindPulse")
+        }
+        .onAppear {
+            viewModel.fetchActivities()
         }
     }
 }
