@@ -72,6 +72,10 @@ extension DIContainer {
         registerFactory(HeartRateManaging.self) {
             HeartRateManager()
         }
+        
+        register(NotificationManaging.self, cached: true) {
+            NotificationManager()
+        }
 
         #if os(iOS)
         register(WatchConnecting.self, cached: false) {

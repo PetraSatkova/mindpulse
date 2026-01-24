@@ -18,10 +18,14 @@ enum ActiveSheet: Identifiable{
 
 struct SettingView: View {
     
+    var notificationManager: NotificationManaging = DIContainer.shared.resolve()
+    
     @State private var activeSheet: ActiveSheet?
     
     @EnvironmentObject var themeManager: ThemeManager
     private let appVersion: String = Bundle.main.appVersion ?? "-"
+    
+    
     
     var body: some View {
         VStack{
@@ -30,6 +34,12 @@ struct SettingView: View {
             }
             SettingCard(title: "Notifications", subtitle: "Off", buttonText: "Set"){
                 activeSheet = .notificationSettings
+                Task {
+                    let granted = await notificationManager.requestPermission()
+                    print("Granted:", granted)
+                }
+                // TODO pupup s nasta
+                notificationManager.scheduleDailyNotification(hour: 21, minute: 10)
             }
             
             Spacer()

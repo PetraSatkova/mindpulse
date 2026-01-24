@@ -11,6 +11,11 @@ import SwiftUI
 @main
 struct MindPulseApp: App {
     @StateObject private var themeManager = ThemeManager()
+    private let notifDelegate = NotificationsDelegate()
+
+    init() {
+        UNUserNotificationCenter.current().delegate = notifDelegate
+    }
 
     var body: some Scene {
         WindowGroup {

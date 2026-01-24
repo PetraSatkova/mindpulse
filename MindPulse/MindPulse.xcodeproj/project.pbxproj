@@ -54,6 +54,9 @@
 				Services/Data/DataManaging.swift,
 				Services/Health/HeartRateManager.swift,
 				Services/Health/HeartRateManaging.swift,
+				Services/Notifications/NotificationManager.swift,
+				Services/Notifications/NotificationManaging.swift,
+				Services/Notifications/NotificationsDelegate.swift,
 				UIComponents/PrimaryButtonStyle.swift,
 			);
 			target = 6811ECB62F1F85B500C04C59 /* MindPulse Watch Watch App */;
@@ -62,6 +65,13 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Service/HeartRateBatchDTO.swift,
+			);
+			target = 9D2A0EE22ED5DC4000EAD793 /* MindPulse */;
+		};
+		6811F3532F25516500C04C59 /* Exceptions for "MindPulse" folder in "MindPulse" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
 			);
 			target = 9D2A0EE22ED5DC4000EAD793 /* MindPulse */;
 		};
@@ -79,6 +89,7 @@
 		9D2A0EE52ED5DC4000EAD793 /* MindPulse */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				6811F3532F25516500C04C59 /* Exceptions for "MindPulse" folder in "MindPulse" target */,
 				6811ECCD2F1F860700C04C59 /* Exceptions for "MindPulse" folder in "MindPulse Watch Watch App" target */,
 			);
 			path = MindPulse;
@@ -457,6 +468,7 @@
 				DEVELOPMENT_TEAM = KR63WNJVMH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MindPulse/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -488,6 +500,7 @@
 				DEVELOPMENT_TEAM = KR63WNJVMH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MindPulse/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
