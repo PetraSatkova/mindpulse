@@ -9,17 +9,52 @@ import SwiftUI
 
 struct StatisticsView: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @State private var isFilterPresented: Bool = false
+    @State var isFilterPresented: Bool = false
+    @State var selectedActivity: ActivityModel? = nil
+    @State var viewModel: StatisticsViewModel = StatisticsViewModel()
     
     var body: some View {
         NavigationStack {
-            VStack {
-                Text("Hiii")
+            VStack(alignment: .leading) {
+                HStack {
+                    StatsCard(
+                        title: selectedActivity == nil ? "Total sessions" : selectedActivity?.name ?? "Activity" ,
+                        value: selectedActivity == nil ? "\(viewModel.state.records.count)" : "16"
+                    )
+                    Spacer()
+                    StatsCard(
+                        title: selectedActivity == nil ? "Total time" : selectedActivity?.name ?? "Activity" ,
+                        value: selectedActivity == nil ? "\(viewModel.state.records.count)" : "2h 15 min"
+                    )
+                }
+                Spacer()
+                Text("graph")
+                Spacer()
+                Text("Last sessions")
+                ForEach(viewModel.state.records) { record in
+                    NavigationLink {
+                        StatisticsDetailView()
+                    } label: {
+                        SessionRow(
+                            title: "",
+                            value: "",
+                            date: Date()
+                        )
+                    }
+
+                }
             }
+            
+            .themedBackground()
         }
-        .themedBackground()
+        .padding()
         .navigationTitle("Statistics")
-        .toolbar{ // TODO not showing why?
+        .onAppear {
+            viewModel.fetchActivities()
+            viewModel.fetchRcords()
+            viewModel.calculateTime(activity: nil)
+        }
+        .toolbar { // TODO not showing why?
             ToolbarItemGroup(placement: .topBarTrailing){
                 // filter button
                 Button(action: {
@@ -35,4 +70,5 @@ struct StatisticsView: View {
 
 #Preview {
     StatisticsView()
+        .environmentObject(ThemeManager())
 }

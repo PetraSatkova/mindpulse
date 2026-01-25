@@ -18,6 +18,7 @@ protocol DataManaging {
     
     // records
     func addRecord(activityId: UUID, record: RecordModel)
+    func fetchAllRecords() -> [RecordModel]
     func fetchRecordsByActivityId(activityId: UUID) -> [RecordModel]
     
     // heart rate samples

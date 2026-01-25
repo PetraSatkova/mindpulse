@@ -38,7 +38,7 @@ struct SettingView: View {
                     let granted = await notificationManager.requestPermission()
                     print("Granted:", granted)
                 }
-                // TODO pupup s nasta
+                // TODO pupup s nastavenim casu
                 notificationManager.scheduleDailyNotification(hour: 21, minute: 10)
             }
             

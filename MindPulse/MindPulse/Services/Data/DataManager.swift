@@ -123,6 +123,18 @@ class DataManager: DataManaging {
         save()
     }
     
+    func fetchAllRecords() -> [RecordModel] {
+        let activities: [ActivityModel] = fetchAllActivities()
+        var records: [RecordModel] = []
+        
+        for activity in activities {
+            var activityRecords: [RecordModel] = fetchRecordsByActivityId(activityId: activity.id)
+            records.append(contentsOf: activityRecords)
+        }
+        
+        return records.sorted { $0.date < $1.date }
+    }
+    
     func fetchRecordsByActivityId(activityId: UUID) -> [RecordModel] {
         let recordRequest = NSFetchRequest<RecordEntity>(entityName: "RecordEntity")
         recordRequest.predicate = NSPredicate(format: "activity.id == %@", activityId as CVarArg)
