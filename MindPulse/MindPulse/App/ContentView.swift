@@ -25,7 +25,7 @@ struct ContentView: View {
                         
                     }
                     Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
-                        StatisticsView()
+                        StatisticsView().themedBackground()
                     }
                     Tab("Test", systemImage: "house", value: 3){
                         Test()

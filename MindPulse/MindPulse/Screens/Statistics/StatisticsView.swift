@@ -45,7 +45,6 @@ struct StatisticsView: View {
                 }
             }
             
-            .themedBackground()
         }
         .padding()
         .navigationTitle("Statistics")
