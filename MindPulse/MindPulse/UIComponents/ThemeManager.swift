@@ -29,12 +29,12 @@ class ThemeManager: ObservableObject {
     
     init() {
         availableThemes = [
-            Theme(id: "calmDawn", name: "Calm Dawn", gradientColors: [Color("CalmDawnStart"), Color("CalmDawnEnd")], isDark: false),
-            Theme(id: "coralReef", name: "Coral Reef", gradientColors: [Color("CoralReefMorningStart"), Color("CoralReefMorningEnd")], isDark: false),
-            Theme(id: "warmSunsetGlow", name: "Warm Sunset Glow", gradientColors: [Color("WarmSunsetGlowStart"), Color("WarmSunsetGlowEnd")], isDark: false),
-            Theme(id: "twilightBloom", name: "Twilight Bloom", gradientColors: [Color("TwilightBloomStart"), Color("TwilightBloomEnd")], isDark: true),
-            Theme(id: "emeraldNightfall", name: "Emerald Nightfall", gradientColors: [Color("EmeraldNightfallStart"), Color("EmeraldNightfallEnd")], isDark: true),
-            Theme(id: "roseQuartzHorizon", name: "Rose Quartz Horizon", gradientColors: [Color("RoseQuartzHorizonStart"), Color("RoseQuartzHorizonEnd")], isDark: true),
+            Theme(id: "calmDawn", name: String(localized: "Calm Dawn"), gradientColors: [Color("CalmDawnStart"), Color("CalmDawnEnd")], isDark: false),
+            Theme(id: "coralReef", name: String(localized: "Coral Reef"), gradientColors: [Color("CoralReefMorningStart"), Color("CoralReefMorningEnd")], isDark: false),
+            Theme(id: "warmSunsetGlow", name: String(localized: "Warm Sunset Glow"), gradientColors: [Color("WarmSunsetGlowStart"), Color("WarmSunsetGlowEnd")], isDark: false),
+            Theme(id: "twilightBloom", name: String(localized: "Twilight Bloom"), gradientColors: [Color("TwilightBloomStart"), Color("TwilightBloomEnd")], isDark: true),
+            Theme(id: "emeraldNightfall", name: String(localized: "Emerald Nightfall"), gradientColors: [Color("EmeraldNightfallStart"), Color("EmeraldNightfallEnd")], isDark: true),
+            Theme(id: "roseQuartzHorizon", name: String(localized: "Rose Quartz Horizon"), gradientColors: [Color("RoseQuartzHorizonStart"), Color("RoseQuartzHorizonEnd")], isDark: true),
         ]
 
         let persistedId = UserDefaults.standard.string(forKey: "selectedThemeId") ?? defaultThemeId

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct SettingCard: View {
-    var title: String
-    var subtitle: String
-    var buttonText: String?
+    var title: LocalizedStringKey
+    var subtitle: LocalizedStringKey
+    var buttonText: LocalizedStringKey?
     var action: (() -> Void)?
     
     @EnvironmentObject var themeManager: ThemeManager

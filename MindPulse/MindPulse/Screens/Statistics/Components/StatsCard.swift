@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct StatsCard: View {
-    var title: String
+    var title: LocalizedStringKey
     var value: String
     
     @EnvironmentObject var themeManager: ThemeManager
