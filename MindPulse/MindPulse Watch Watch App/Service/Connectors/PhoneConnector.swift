@@ -135,13 +135,20 @@ class PhoneConnector: NSObject, WCSessionDelegate, PhoneConnecting {
         }
     }
     
-    func transferBatchOfSamples(payload: HeartRateBatchDTO) {
+    func transferActivityRecord(payload: ActivityRecordDTO) {
         do {
             let data = try JSONEncoder().encode(payload)
-            session.transferUserInfo(["payload": data])
-            print("Successfully transferred batch of \(payload.samples.count) samples for activity \(payload.activityId)")
+            
+            if session.isReachable {
+                session.sendMessage(["action": "saveRecord", "payload": data], replyHandler: nil, errorHandler: { error in
+                    print("Error sending record via sendMessage, falling back to transferUserInfo: \(error.localizedDescription)")
+                    self.session.transferUserInfo(["payload": data])
+                })
+            } else {
+                session.transferUserInfo(["payload": data])
+            }
         } catch {
-            print("Error encoding HeartRateBatchDTO: \(error.localizedDescription)")
+            print("Error encoding ActivityRecordDTO: \(error.localizedDescription)")
         }
     }
 }

@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct HeartRateBatchDTO: Codable {
+struct ActivityRecordDTO: Codable {
     let activityId: UUID
+    let startDate: Date
+    let duration: TimeInterval
     let samples: [HeartRateSampleModel]
 }

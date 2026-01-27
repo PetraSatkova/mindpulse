@@ -19,9 +19,9 @@ struct StatisticsDetailView: View {
             HRChart(samples: viewModel.state.hrSamples)
             
             HStack {
-                StatsCard(title: LocalizedStringKey("Min HR"), value: "0")
-                StatsCard(title: LocalizedStringKey("Max HR"), value: "0")
-                StatsCard(title: LocalizedStringKey("Avg HR"), value: "0")
+                StatsCard(title: LocalizedStringKey("Min HR"), value: "\(viewModel.state.minHR)")
+                StatsCard(title: LocalizedStringKey("Max HR"), value: "\(viewModel.state.maxHR)")
+                StatsCard(title: LocalizedStringKey("Avg HR"), value: "\(viewModel.state.avgHR)")
             }
             Spacer()
         }

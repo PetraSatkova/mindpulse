@@ -11,6 +11,6 @@ import WatchConnectivity
 
 protocol PhoneConnecting {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any])
-    func transferBatchOfSamples(payload: HeartRateBatchDTO)
+    func transferActivityRecord(payload: ActivityRecordDTO)
     func requestInitialSync()
 }
