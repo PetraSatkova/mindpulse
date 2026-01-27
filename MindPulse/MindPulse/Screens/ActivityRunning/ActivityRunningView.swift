@@ -19,6 +19,8 @@ struct ActivityRunningView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    var viewModel: ActivitiesViewModel = ActivitiesViewModel()
+    
     init(activity: ActivityModel, totalTime: Int = 15 * 60, path: Binding<NavigationPath>) {
         self.activity = activity
         self.totalTime = totalTime
@@ -39,6 +41,7 @@ struct ActivityRunningView: View {
                 ActivityCompletedView(activity: activity, duration: totalTime) {
                     // Reset navigation stack to return to root (ActivitiesView)
                     path = NavigationPath()
+                    createRecord()
                 }
             } else {
                 VStack {
@@ -149,5 +152,14 @@ struct ActivityRunningView: View {
         let minutes = totalSeconds / 60
         let seconds = totalSeconds % 60
         return String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    func createRecord() {
+        let newRecord = RecordModel(
+            id: UUID(),
+            date: Date(),
+            durationSeconds: Int16(totalTime)
+        )
+        viewModel.addRecord(activity: activity, record: newRecord)
     }
 }

@@ -29,7 +29,7 @@ struct LineChart: View {
                 }
             }
         }
-        .chartYScale(domain: 0...max(60, (points.map(\.minutes).max() ?? 0))) // similar to your 60m top
+        .chartYScale(domain: 0...(points.map(\.minutes).max() ?? 0))
         .frame(height: 180)
         .padding()
         .background(

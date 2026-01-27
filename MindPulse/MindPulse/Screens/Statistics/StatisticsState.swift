@@ -14,4 +14,5 @@ final class StatisticsState {
     var totalMinutes: Int = 0
     var totalCount: Int = 0
     var weeklyPoints: [DayMinutes]? = []
+    var hrSamples: [HeartRateSampleModel] = []
 }
