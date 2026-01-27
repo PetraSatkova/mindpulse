@@ -123,7 +123,5 @@ extension StatisticsViewModel {
             state.avgHR = sum / bpms.count
         }
     }
-
-    
     
 }

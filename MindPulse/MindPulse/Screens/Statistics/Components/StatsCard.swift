@@ -24,9 +24,9 @@ struct StatsCard: View {
         }
         .frame(height: 80)
         .padding(.horizontal, 20)
-        .background(Color.white)
+        .background(themeManager.currentTheme.isDark ? Color.black : Color.white)
+        .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)
         .cornerRadius(25)
-//        .shadow(radius: 10)
     }
 }
 

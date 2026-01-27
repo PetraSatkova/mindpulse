@@ -12,7 +12,11 @@ struct StatisticsDetailView: View {
     @State var viewModel: StatisticsViewModel
     @EnvironmentObject var themeManager: ThemeManager
     
+    
     var body: some View {
+        
+        var stats = viewModel.calculateHeartRateStats(from: viewModel.state.hrSamples)
+        
         VStack(alignment: .center) {
             Text(selectedRecord.date.formatted())
             
