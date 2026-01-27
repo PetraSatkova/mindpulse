@@ -74,6 +74,21 @@ class DataManager: DataManaging {
         }
     }
     
+    func getActivityNameByRecord(recordId: UUID) -> String {
+        let activityRequest = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
+        activityRequest.predicate = NSPredicate(format: "id == %@", recordId as CVarArg)
+        
+        var activities: [ActivityEntity] = []
+        
+        do {
+            activities = try context.fetch(activityRequest)
+        } catch {
+            print("Cannot fetch data: \(error.localizedDescription)")
+            return "no name"
+        }
+        return activities.first?.name ?? "no name"
+    }
+    
     // Sends a delete command for the activity to the watch app
     func deleteActivity(activityId: UUID) -> Bool {
         // fetch activity

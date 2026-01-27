@@ -27,9 +27,12 @@ struct SessionRow: View {
             Text(date, style: .date)
         }
         .frame(height: 80)
-        .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)
+        .background(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(.background) 
+                .shadow(radius: 1)
+        )
         .cornerRadius(25)
-        .padding()
     }
 }
 

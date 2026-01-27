@@ -46,19 +46,35 @@ struct ContentView: View {
             .navigationTitle(selectedTab == 1 ? "Statistics" : "MindPulse")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-
-                    // Show filter only on Statistics tab
                     if selectedTab == 1 {
-                        Button {
-                            isFilterPresented.toggle()
+
+                        Menu {
+                            // "All"
+                            Button {
+                                filteredActivity = nil
+                            } label: {
+                                Label("All activities", systemImage: filteredActivity == nil ? "checkmark" : "")
+                            }
+
+                            // Activities list
+                            ForEach(viewModel.state.activities) { activity in
+                                Button {
+                                    filteredActivity = activity
+                                } label: {
+                                    HStack {
+                                        Text(activity.name)
+                                        if filteredActivity == activity {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
                         } label: {
                             Image(systemName: "line.3.horizontal.decrease")
                         }
                     }
 
-                    Button {
-                        isSettingPresented = true
-                    } label: {
+                    Button { isSettingPresented = true } label: {
                         Image(systemName: "gear")
                     }
                 }

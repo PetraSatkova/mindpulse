@@ -11,6 +11,7 @@ import Foundation
 final class StatisticsState {
     var activities: [ActivityModel] = []
     var records: [RecordModel] = []
-    var totalSeconds: Int = 0
+    var totalMinutes: Int = 0
     var totalCount: Int = 0
+    var weeklyPoints: [DayMinutes]? = []
 }

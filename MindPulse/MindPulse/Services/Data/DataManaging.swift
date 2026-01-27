@@ -15,6 +15,7 @@ protocol DataManaging {
     func addActivity(newActivity: ActivityModel)
     func fetchAllActivities() -> [ActivityModel]
     func deleteActivity(activityId: UUID) -> Bool
+    func getActivityNameByRecord(recordId: UUID) -> String
     
     // records
     func addRecord(activityId: UUID, record: RecordModel)

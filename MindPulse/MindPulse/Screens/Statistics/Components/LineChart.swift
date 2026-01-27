@@ -8,34 +8,35 @@
 import SwiftUI
 import Charts
 
-struct SalesPoint: Identifiable {
-    let id = UUID()
-    let day: String
-    let value: Double
-}
-
 struct LineChart: View {
-    let data: [SalesPoint] = [
-        .init(day: "Mon", value: 12),
-        .init(day: "Tue", value: 18),
-        .init(day: "Wed", value: 9),
-        .init(day: "Thu", value: 22),
-        .init(day: "Fri", value: 16),
-    ]
+    let points: [DayMinutes]
 
     var body: some View {
-        Chart(data) { point in
-            LineMark(
-                x: .value("Day", point.day),
-                y: .value("Value", point.value)
-            )
-            PointMark(
-                x: .value("Day", point.day),
-                y: .value("Value", point.value)
+        Chart(points) { p in
+            BarMark(
+                x: .value("Day", p.label),
+                y: .value("Minutes", p.minutes)
             )
         }
-        .frame(height: 220)
+        .chartYAxis {
+            AxisMarks(position: .leading) { value in
+                AxisGridLine()
+                AxisTick()
+                AxisValueLabel {
+                    if let m = value.as(Int.self) {
+                        Text("\(m)m")   // show 15m, 30m...
+                    }
+                }
+            }
+        }
+        .chartYScale(domain: 0...max(60, (points.map(\.minutes).max() ?? 0))) // similar to your 60m top
+        .frame(height: 180)
         .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(.background)
+        )
     }
 }
+
 

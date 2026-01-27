@@ -15,15 +15,18 @@ struct StatsCard: View {
     @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .trailing) {
             Text(title)
-                .font(.caption)
+                .font(.title3)
             Text(value)
                 .font(.callout)
+                .bold()
         }
         .frame(height: 80)
-        .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)
+        .padding(.horizontal, 20)
+        .background(Color.white)
         .cornerRadius(25)
+//        .shadow(radius: 10)
     }
 }
 
