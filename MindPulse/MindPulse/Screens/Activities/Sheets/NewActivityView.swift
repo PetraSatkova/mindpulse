@@ -47,6 +47,7 @@ struct NewActivityView: View {
                         .background(themeManager.currentTheme.isDark ? Color(.systemGray5) : Color(.systemGray5))
                         .clipShape(Circle())
                 }
+                .accessibilityIdentifier(.newActivityCloseButton)
                 
                 Spacer()
                 
@@ -72,6 +73,7 @@ struct NewActivityView: View {
                         .background(Color.blue)
                         .clipShape(Circle())
                 }
+                .accessibilityIdentifier(.newActivitySaveButton)
             }
             .padding(.horizontal)
             .padding(.top, 20)
@@ -117,6 +119,7 @@ struct NewActivityView: View {
                     .background(cardBackgroundColor)
                     .cornerRadius(20)
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                    .accessibilityIdentifier(.newActivityNameField)
                 
                 
                 //Color picker
@@ -168,6 +171,7 @@ struct NewActivityView: View {
                         Spacer()
                         
                         Toggle("", isOn: $HRisActive)
+                            .accessibilityIdentifier(.newActivityHRToggle)
                     }
                     .padding()
                     .background(cardBackgroundColor)

@@ -26,14 +26,17 @@ struct ContentView: View {
                         ActivitiesView(viewModel: viewModel)
                         
                     }
+                    .accessibilityIdentifier(.activitiesTab)
                     Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
                         StatisticsView(filteredActivity: $filteredActivity).themedBackground()
                     }
+                    .accessibilityIdentifier(.statisticsTab)
                 }
                 // plus button
                 NewActivityButton {
                     isNewActivityPresented = true
                 }
+                .accessibilityIdentifier(.newActivityButton)
                 .sheet(isPresented: $isNewActivityPresented){
                     NewActivityView(viewModel: viewModel).presentationDetents([.fraction(0.8), .large])
                 }
@@ -43,21 +46,38 @@ struct ContentView: View {
             .navigationTitle(selectedTab == 1 ? "Statistics" : "MindPulse")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-
-                    // Show filter only on Statistics tab
                     if selectedTab == 1 {
-                        Button {
-                            isFilterPresented.toggle()
+
+                        Menu {
+                            // "All"
+                            Button {
+                                filteredActivity = nil
+                            } label: {
+                                Label("All activities", systemImage: filteredActivity == nil ? "checkmark" : "")
+                            }
+
+                            // Activities list
+                            ForEach(viewModel.state.activities) { activity in
+                                Button {
+                                    filteredActivity = activity
+                                } label: {
+                                    HStack {
+                                        Text(activity.name)
+                                        if filteredActivity == activity {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
                         } label: {
                             Image(systemName: "line.3.horizontal.decrease")
                         }
                     }
 
-                    Button {
-                        isSettingPresented = true
-                    } label: {
+                    Button { isSettingPresented = true } label: {
                         Image(systemName: "gear")
                     }
+                    .accessibilityIdentifier(.settingsButton)
                 }
             }
 

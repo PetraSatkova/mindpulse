@@ -11,6 +11,7 @@ struct SettingCard: View {
     var title: LocalizedStringKey
     var subtitle: LocalizedStringKey
     var buttonText: LocalizedStringKey?
+    var accessibilityTag: AccessibilityTag? = nil
     var action: (() -> Void)?
     
     @EnvironmentObject var themeManager: ThemeManager
@@ -28,6 +29,7 @@ struct SettingCard: View {
             if let buttonText = buttonText{
                 Button(buttonText, action: action ?? {})
                 .padding(.trailing,16)
+                .accessibilityIdentifier(accessibilityTag?.rawValue ?? "")
             }
         }
         .frame(maxWidth: 350, alignment: .leading)

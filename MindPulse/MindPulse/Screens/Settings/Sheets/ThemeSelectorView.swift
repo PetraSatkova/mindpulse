@@ -33,6 +33,7 @@ struct ThemeSelectorView: View {
                     Button("Close") {
                         activeSheet = nil
                     }
+                    .accessibilityIdentifier(.themeSelectorCloseButton)
                 }
             }
         }
@@ -89,9 +90,24 @@ struct ThemeSectionView: View {
                                 themeManager.select(theme)
                             }
                         }
+                        .applyAccessibilityIdentifier(for: theme)
                     }
                 }
             }
+        }
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func applyAccessibilityIdentifier(for theme: Theme) -> some View {
+        switch theme.id {
+        case "calmDawn":
+            self.accessibilityIdentifier(.themeOptionCalmDawn)
+        case "twilightBloom":
+            self.accessibilityIdentifier(.themeOptionTwilightBloom)
+        default:
+            self
         }
     }
 }
