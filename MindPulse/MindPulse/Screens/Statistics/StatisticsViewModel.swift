@@ -99,6 +99,23 @@ extension StatisticsViewModel {
         state.hrSamples = samples
     }
 
-    
+    func calculateHeartRateStats(
+        from samples: [HeartRateSampleModel]
+    ) -> HeartRateStats? {
+
+        guard !samples.isEmpty else { return nil }
+
+        let bpms = samples.map(\.bpm)
+
+        let minBpm = bpms.min()!
+        let maxBpm = bpms.max()!
+        let avgBpm = bpms.reduce(0, +) / Double(bpms.count)
+
+        return HeartRateStats(
+            min: minBpm,
+            max: maxBpm,
+            average: avgBpm
+        )
+    }
     
 }

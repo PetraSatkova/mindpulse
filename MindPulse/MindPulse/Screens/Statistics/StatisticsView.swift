@@ -23,11 +23,12 @@ struct StatisticsView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(alignment: .center, spacing: 70) {
+            HStack(alignment: .center) {
                 StatsCard(
                     title: filteredActivity == nil ? "Total sessions" : LocalizedStringKey(filteredActivity?.name ?? "Activity") ,
                     value: String(viewModel.state.totalCount)
                 )
+                Spacer()
                 StatsCard(
                     title: filteredActivity == nil ? "Total time" : LocalizedStringKey(filteredActivity?.name ?? "Activity") ,
                     value: String(viewModel.state.totalMinutes)
