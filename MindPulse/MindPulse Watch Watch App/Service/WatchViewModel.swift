@@ -17,6 +17,7 @@ class WatchViewModel {
     private var heartRateManager: HeartRateManaging
     private var phoneConnector: PhoneConnecting
     private var hrSamples: [HeartRateSampleModel] = []
+    private var startDate: Date?
     
     init() {
         self.dataManager = DIContainer.shared.resolve()
@@ -50,6 +51,10 @@ class WatchViewModel {
     
     func startActivity(activity: ActivityModel) {
         do {
+            if startDate == nil {
+                startDate = Date()
+                print("Session started at: \(startDate!)")
+            }
             try heartRateManager.startRecording(collectHeartRate: activity.hrRecording)
         } catch {
             print("Error starting heart rate recording: \(error.localizedDescription)")
@@ -64,12 +69,16 @@ class WatchViewModel {
     func stopActivity(activityId: UUID) {
         heartRateManager.stopRecording()
 
-        let payload = HeartRateBatchDTO(
+        let duration = Date().timeIntervalSince(startDate ?? Date())
+        let payload = ActivityRecordDTO(
             activityId: activityId,
+            startDate: startDate ?? Date(),
+            duration: duration,
             samples: hrSamples
         )
 
-        phoneConnector.transferBatchOfSamples(payload: payload)
+        phoneConnector.transferActivityRecord(payload: payload)
         hrSamples.removeAll()
+        startDate = nil
     }
 }

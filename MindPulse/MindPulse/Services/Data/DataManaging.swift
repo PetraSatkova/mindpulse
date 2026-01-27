@@ -23,6 +23,6 @@ protocol DataManaging {
     func fetchRecordsByActivityId(activityId: UUID) -> [RecordModel]
     
     // heart rate samples
-    func addHeartRateSamples(samples: HeartRateBatchDTO)
+    func saveActivityRecord(_ dto: ActivityRecordDTO)
     func fetchHeartRateSamples(record: RecordModel) -> [HeartRateSampleModel]
 }

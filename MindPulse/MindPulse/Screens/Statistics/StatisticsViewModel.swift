@@ -15,6 +15,15 @@ class StatisticsViewModel {
     
     init() {
         dataManager = DIContainer.shared.resolve()
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name("RecordsUpdated"), object: nil, queue: .main) { [weak self] _ in
+            self?.fetchRecords()
+            self?.calculateTotalTime(activity: nil) // Default calc
+            self?.calculateTotalCount(activity: nil)
+            if let records = self?.state.records {
+                self?.minutesByDayForCurrentWeek(records: records)
+            }
+        }
     }
 }
 
@@ -97,25 +106,22 @@ extension StatisticsViewModel {
     func fetchHrSamplesByRecord(record: RecordModel) {
         let samples = dataManager.fetchHeartRateSamples(record: record)
         state.hrSamples = samples
+        calculateHeartRateStats()
     }
 
-    func calculateHeartRateStats(
-        from samples: [HeartRateSampleModel]
-    ) -> HeartRateStats? {
-
-        guard !samples.isEmpty else { return nil }
-
-        let bpms = samples.map(\.bpm)
-
-        let minBpm = bpms.min()!
-        let maxBpm = bpms.max()!
-        let avgBpm = bpms.reduce(0, +) / Double(bpms.count)
-
-        return HeartRateStats(
-            min: minBpm,
-            max: maxBpm,
-            average: avgBpm
-        )
+    private func calculateHeartRateStats() {
+        let bpms = state.hrSamples.map { Int($0.bpm) }
+        
+        if bpms.isEmpty {
+            state.minHR = 0
+            state.maxHR = 0
+            state.avgHR = 0
+        } else {
+            state.minHR = bpms.min() ?? 0
+            state.maxHR = bpms.max() ?? 0
+            let sum = bpms.reduce(0, +)
+            state.avgHR = sum / bpms.count
+        }
     }
     
 }

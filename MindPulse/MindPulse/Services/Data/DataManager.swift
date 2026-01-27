@@ -24,9 +24,8 @@ class DataManager: DataManaging {
         }
     }
     
-    // activities
     
-    // Adds or updates an activity in Core Data to prevent duplicates
+    // Adds or updates an activity in Core Data
     func addActivity(newActivity: ActivityModel) {
         let request = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
         request.predicate = NSPredicate(format: "id == %@", newActivity.id as CVarArg)
@@ -103,7 +102,7 @@ class DataManager: DataManaging {
         
         guard !activities.isEmpty else { return false }
         
-        // Delete ALL matching activities (to clean up any legacy duplicates)
+        // Delete all matching activities
         for activity in activities {
             context.delete(activity)
         }
@@ -168,13 +167,41 @@ class DataManager: DataManaging {
         }
     }
     
-    // heartRate samples
-    // call it from watch connector by did receive user info
-    func addHeartRateSamples(samples: HeartRateBatchDTO) {
-        // TODO add record, add heart rate sample entities
+    
+    // zaznam aktivity
+    func saveActivityRecord(_ dto: ActivityRecordDTO) {
+        let activityRequest = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
+        activityRequest.predicate = NSPredicate(format: "id == %@", dto.activityId as CVarArg)
         
-        save()
+        do {
+            guard let activity = try context.fetch(activityRequest).first else {
+                print("Activity not found for ID: \(dto.activityId)")
+                return
+            }
+            
+            let newRecord = RecordEntity(context: context)
+            newRecord.id = UUID()
+            newRecord.date = dto.startDate
+            newRecord.durationSeconds = Int16(dto.duration)
+            newRecord.activity = activity
+            
+            for sample in dto.samples {
+                let hrEntity = HeartRateSampleEntity(context: context)
+                hrEntity.id = UUID()
+                hrEntity.bpm = sample.bpm
+                hrEntity.timestamp = sample.timestamp
+                hrEntity.record = newRecord
+            }
+            
+            save()
+            print("Successfully saved activity record with \(dto.samples.count) heart rate samples.")
+            NotificationCenter.default.post(name: Notification.Name("RecordsUpdated"), object: nil)
+            
+        } catch {
+            print("Error saving activity record: \(error.localizedDescription)")
+        }
     }
+    
     func fetchHeartRateSamples(record: RecordModel) -> [HeartRateSampleModel] {
         let recordRequest = NSFetchRequest<HeartRateSampleEntity>(entityName: "HeartRateSampleEntity")
         recordRequest.predicate = NSPredicate(format: "record.id == %@", record.id as CVarArg)

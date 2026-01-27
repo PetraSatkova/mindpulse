@@ -44,6 +44,19 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
                     let response = self.createSyncResponse()
                     replyHandler(response)
                 }
+            if action == "saveRecord" {
+                if let data = message["payload"] as? Data {
+                     do {
+                         let record = try JSONDecoder().decode(ActivityRecordDTO.self, from: data)
+                         dataManager.saveActivityRecord(record)
+                         replyHandler(["status": "success"])
+                     } catch {
+                         print("Error decoding record in sendMessage: \(error.localizedDescription)")
+                         replyHandler(["status": "error", "message": error.localizedDescription])
+                     }
+                } else {
+                    replyHandler(["status": "error", "message": "No payload"])
+                }
             }
         }
     }
@@ -51,8 +64,11 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any]) {
         guard let data = userInfo["payload"] as? Data else { return }
 
-        if let batch = try? JSONDecoder().decode(HeartRateBatchDTO.self, from: data) {
-            dataManager.addHeartRateSamples(samples: batch)
+        do {
+            let record = try JSONDecoder().decode(ActivityRecordDTO.self, from: data)
+            dataManager.saveActivityRecord(record)
+        } catch {
+            print("Error decoding ActivityRecordDTO: \(error.localizedDescription)")
         }
     }
     
