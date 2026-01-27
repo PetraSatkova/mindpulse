@@ -27,11 +27,11 @@ struct StatisticsView: View {
             VStack(alignment: .leading) {
                 HStack(alignment: .center, spacing: 70) {
                     StatsCard(
-                        title: filteredActivity == nil ? "Total sessions" : filteredActivity?.name ?? "Activity" ,
+                        title: filteredActivity == nil ? "Total sessions" : LocalizedStringKey(filteredActivity?.name ?? "Activity") ,
                         value: filteredActivity == nil ? "\(viewModel.state.records.count)" : "16"
                     )
                     StatsCard(
-                        title: filteredActivity == nil ? "Total time" : filteredActivity?.name ?? "Activity" ,
+                        title: filteredActivity == nil ? "Total time" : LocalizedStringKey(filteredActivity?.name ?? "Activity") ,
                         value: filteredActivity == nil ? "\(viewModel.state.records.count)" : "2h 15 min"
                     )
                 }

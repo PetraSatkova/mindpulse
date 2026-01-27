@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6811ECC12F1F85B600C04C59 /* MindPulse Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6811ECB72F1F85B500C04C59 /* MindPulse Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9D112D542F292B4500C5180D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9D112D532F292B4500C5180D /* Localizable.xcstrings */; };
+		9D112D552F292CC500C5180D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9D112D532F292B4500C5180D /* Localizable.xcstrings */; };
 		9DF4FA162F01A45000E5D3D7 /* ElegantEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 9DF4FA152F01A45000E5D3D7 /* ElegantEmojiPicker */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		6811ECB72F1F85B500C04C59 /* MindPulse Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MindPulse Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D112D532F292B4500C5180D /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		9D2A0EE32ED5DC4000EAD793 /* MindPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -119,6 +122,7 @@
 		9D2A0EDA2ED5DC4000EAD793 = {
 			isa = PBXGroup;
 			children = (
+				9D112D532F292B4500C5180D /* Localizable.xcstrings */,
 				9D2A0EE52ED5DC4000EAD793 /* MindPulse */,
 				6811ECB82F1F85B500C04C59 /* MindPulse Watch Watch App */,
 				9D2A0EE42ED5DC4000EAD793 /* Products */,
@@ -208,6 +212,7 @@
 			knownRegions = (
 				en,
 				Base,
+				cs,
 			);
 			mainGroup = 9D2A0EDA2ED5DC4000EAD793;
 			minimizedProjectReferenceProxies = 1;
@@ -230,6 +235,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D112D552F292CC500C5180D /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D112D542F292B4500C5180D /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +410,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -459,6 +467,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

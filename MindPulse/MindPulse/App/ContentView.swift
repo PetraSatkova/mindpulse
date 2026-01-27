@@ -29,16 +29,13 @@ struct ContentView: View {
                     Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
                         StatisticsView(filteredActivity: $filteredActivity).themedBackground()
                     }
-                    Tab("Test", systemImage: "house", value: 3){
-                        Test()
-                    }
                 }
                 // plus button
                 NewActivityButton {
                     isNewActivityPresented = true
                 }
                 .sheet(isPresented: $isNewActivityPresented){
-                    NewActivityView(viewModel: viewModel).presentationDetents([.fraction(0.75), .large])
+                    NewActivityView(viewModel: viewModel).presentationDetents([.fraction(0.8), .large])
                 }
                 .padding(.trailing, 20)
                 .padding(.bottom, 60)

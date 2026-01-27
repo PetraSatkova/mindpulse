@@ -57,7 +57,9 @@ struct NewActivityView: View {
                 
                 // save
                 Button(action: {
+                    print("📝 Creating activity. Toggle HRisActive: \(HRisActive)")
                     let newActivity: ActivityModel = createActivity() // create new activity model
+                    print("📝 Created model. hrRecording: \(newActivity.hrRecording)")
                     viewModel.addActivity(newActivity: newActivity)   // save to core data
                     watchConnector.sendActivity(activity: newActivity) // send to watch
                     viewModel.fetchActivities() 

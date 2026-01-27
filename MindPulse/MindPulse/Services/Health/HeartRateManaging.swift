@@ -9,7 +9,7 @@ import HealthKit
 
 protocol HeartRateManaging {
     func requestAuthorization() async throws
-    func startRecording() throws
+    func startRecording(collectHeartRate: Bool) throws
     func stopRecording()
 
     var onSample: ((Double, Date) -> Void)? { get set }

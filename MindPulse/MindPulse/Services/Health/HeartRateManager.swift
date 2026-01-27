@@ -27,6 +27,7 @@ class HeartRateManager : NSObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
               let quantity = stats.mostRecentQuantity() else { return }
 
         let bpm = quantity.doubleValue(for: HKUnit.count().unitDivided(by: .minute()))
+        print("🫀 Received HR sample: \(bpm)")
         onSample?(bpm, Date())
     }
     
@@ -73,7 +74,7 @@ extension HeartRateManager {
         )
     }
 
-    func startRecording() throws {
+    func startRecording(collectHeartRate: Bool) throws {
         let config = HKWorkoutConfiguration()
         config.activityType = .mindAndBody
         config.locationType = .unknown
@@ -84,10 +85,16 @@ extension HeartRateManager {
         )
 
         let builder = session.associatedWorkoutBuilder()
-        builder.dataSource = HKLiveWorkoutDataSource(
-            healthStore: healthStore,
-            workoutConfiguration: config
-        )
+        
+        if collectHeartRate {
+            print("❤️ Enabling HR data source")
+            builder.dataSource = HKLiveWorkoutDataSource(
+                healthStore: healthStore,
+                workoutConfiguration: config
+            )
+        } else {
+            print("🚫 HR collection disabled")
+        }
 
         session.delegate = self
         builder.delegate = self
@@ -96,7 +103,9 @@ extension HeartRateManager {
         self.builder = builder
 
         session.startActivity(with: Date())
-        builder.beginCollection(withStart: Date()) { _, _ in }
+        builder.beginCollection(withStart: Date()) { success, error in
+            print("🏁 Begin collection: \(success), error: \(String(describing: error))")
+        }
     }
 
     func stopRecording() {

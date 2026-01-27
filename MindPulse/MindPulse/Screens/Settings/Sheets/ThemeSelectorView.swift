@@ -43,7 +43,7 @@ struct ThemeSelectorView: View {
 
 struct ThemeSectionView: View {
     
-    let title: String
+    let title: LocalizedStringKey
     let themes: [Theme]
     let columns: [GridItem]
     
@@ -77,7 +77,7 @@ struct ThemeSectionView: View {
                                 }
                                 .scaleEffect(isSelected ? 1.05 : 1.0)
                             
-                            Text(theme.name)
+                            Text(LocalizedStringKey(theme.name))
                                 .font(.caption)
                                 .fontWeight(.semibold)
                                 .multilineTextAlignment(.center)

@@ -29,7 +29,7 @@ struct SettingView: View {
     
     var body: some View {
         VStack{
-            SettingCard(title: "Theme", subtitle: themeManager.currentTheme.name, buttonText: "Select"){
+            SettingCard(title: "Theme", subtitle: LocalizedStringKey(themeManager.currentTheme.name), buttonText: "Select"){
                 activeSheet = .themeSelector
             }
             SettingCard(title: "Notifications", subtitle: "Off", buttonText: "Set"){
@@ -44,7 +44,7 @@ struct SettingView: View {
             
             Spacer()
             
-            SettingCard(title: "App version", subtitle: appVersion)
+            SettingCard(title: "App version", subtitle: LocalizedStringKey(appVersion))
         }
         .themedBackground()
         .navigationTitle("Settings")

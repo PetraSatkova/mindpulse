@@ -12,6 +12,7 @@ struct ActivitySetupView: View {
     @State var selectedMins: Int = 10
     
     @State private var navigateToRunning = false
+    @Binding var path: NavigationPath
     
     var activity: ActivityModel
     
@@ -26,7 +27,7 @@ struct ActivitySetupView: View {
                     navigateToRunning.toggle()
                 }.buttonStyle(.primary)
                     .navigationDestination(isPresented: $navigateToRunning) {
-                        ActivityRunningView(activity: activity, totalTime: selectedMins)
+                        ActivityRunningView(activity: activity, totalTime: selectedMins * 60, path: $path)
                             .navigationBarBackButtonHidden(true)
                             .themedBackground()
                     }
