@@ -93,6 +93,11 @@ extension StatisticsViewModel {
             DayMinutes(weekdayIndex: i + 1, label: labels[i], minutes: totals[i])
         }
     }
+    
+    func fetchHrSamplesByRecord(record: RecordModel) {
+        let samples = dataManager.fetchHeartRateSamples(record: record)
+        state.hrSamples = samples
+    }
 
     
     

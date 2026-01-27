@@ -39,4 +39,8 @@ extension ActivitiesViewModel {
         watchConnector.deleteActivity(activityId: activityId)
         self.fetchActivities()
     }
+    
+    func addRecord(activity: ActivityModel, record: RecordModel) {
+        dataManager.addRecord(activityId: activity.id, record: record)
+    }
 }

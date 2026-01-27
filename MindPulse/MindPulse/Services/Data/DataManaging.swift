@@ -24,4 +24,5 @@ protocol DataManaging {
     
     // heart rate samples
     func addHeartRateSamples(samples: HeartRateBatchDTO)
+    func fetchHeartRateSamples(record: RecordModel) -> [HeartRateSampleModel]
 }

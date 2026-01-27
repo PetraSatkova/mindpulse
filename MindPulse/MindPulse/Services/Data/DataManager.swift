@@ -75,18 +75,15 @@ class DataManager: DataManaging {
     }
     
     func getActivityNameByRecord(recordId: UUID) -> String {
-        let activityRequest = NSFetchRequest<ActivityEntity>(entityName: "ActivityEntity")
-        activityRequest.predicate = NSPredicate(format: "id == %@", recordId as CVarArg)
-        
-        var activities: [ActivityEntity] = []
-        
-        do {
-            activities = try context.fetch(activityRequest)
-        } catch {
-            print("Cannot fetch data: \(error.localizedDescription)")
-            return "no name"
+        let recordRequest = NSFetchRequest<RecordEntity>(entityName: "RecordEntity")
+        recordRequest.predicate = NSPredicate(format: "id == %@", recordId as CVarArg)
+        recordRequest.fetchLimit = 1
+
+        if let record = try? context.fetch(recordRequest).first,
+           let activityName = record.activity?.name {
+            return activityName
         }
-        return activities.first?.name ?? "no name"
+        return "no name"
     }
     
     // Sends a delete command for the activity to the watch app
@@ -136,6 +133,7 @@ class DataManager: DataManaging {
         newRecord.durationSeconds = Int16(record.durationSeconds)
         newRecord.activity = activity
         save()
+        print("Record added")
     }
     
     func fetchAllRecords() -> [RecordModel] {
@@ -176,6 +174,25 @@ class DataManager: DataManaging {
         // TODO add record, add heart rate sample entities
         
         save()
+    }
+    func fetchHeartRateSamples(record: RecordModel) -> [HeartRateSampleModel] {
+        let recordRequest = NSFetchRequest<HeartRateSampleEntity>(entityName: "HeartRateSampleEntity")
+        recordRequest.predicate = NSPredicate(format: "record.id == %@", record.id as CVarArg)
+        
+        var hrSamples: [HeartRateSampleEntity] = []
+        
+        do {
+            hrSamples = try context.fetch(recordRequest)
+        } catch {
+            print("Cannot fetch data: \(error.localizedDescription)")
+        }
+        
+        return hrSamples.map { hrSample in
+            HeartRateSampleModel(
+                id: hrSample.id ?? UUID(),
+                bpm: hrSample.bpm,
+                timestamp: hrSample.timestamp ?? Date())
+        }
     }
 }
 
