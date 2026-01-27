@@ -69,7 +69,7 @@ class DataManager: DataManaging {
                 name: entity.name ?? "no name",
                 emoji: entity.emoji ?? "👀",
                 color: PaletteColor(rawValue: entity.colorKey ?? "blue") ?? PaletteColor.blue,
-                hrRecording: false
+                hrRecording: entity.hrRecording
             )
         }
     }

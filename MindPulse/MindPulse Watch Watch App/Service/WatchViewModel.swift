@@ -26,14 +26,16 @@ class WatchViewModel {
         self.phoneConnector.requestInitialSync()
         
         heartRateManager.onSample = { [weak self] bpm, timestamp in
-            self?.currentBPM = Int(bpm)
-            self?.hrSamples.append(
-                HeartRateSampleModel(
-                    id: UUID(),
-                    bpm: bpm,
-                    timestamp: timestamp
+            Task { @MainActor in
+                self?.currentBPM = Int(bpm)
+                self?.hrSamples.append(
+                    HeartRateSampleModel(
+                        id: UUID(),
+                        bpm: bpm,
+                        timestamp: timestamp
+                    )
                 )
-            )
+            }
         }
         
         // Reloads activities when notified of updates
@@ -46,9 +48,9 @@ class WatchViewModel {
         state.activities = dataManager.fetchAllActivities()
     }
     
-    func startActivity() {
+    func startActivity(activity: ActivityModel) {
         do {
-            try heartRateManager.startRecording()
+            try heartRateManager.startRecording(collectHeartRate: activity.hrRecording)
         } catch {
             print("Error starting heart rate recording: \(error.localizedDescription)")
         }

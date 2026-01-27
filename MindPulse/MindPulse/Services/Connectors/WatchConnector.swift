@@ -91,6 +91,8 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
                 "hrRecording": activity.hrRecording
             ]
             
+            print("📤 Sending activity to Watch: \(activity.name), HR: \(activity.hrRecording)")
+            
             session.sendMessage(message, replyHandler: nil) { error in
                 print("Sending error: \(error.localizedDescription)")
             }

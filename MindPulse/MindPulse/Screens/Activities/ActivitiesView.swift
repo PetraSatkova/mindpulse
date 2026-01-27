@@ -19,12 +19,14 @@ struct ActivitiesView: View{
     //@EnvironmentObject var themeManager: ThemeManager
     //@StateObject var themeManager = ThemeManager()
     
+    @State private var path = NavigationPath()
+    
     var body: some View{
-        NavigationStack{
+        NavigationStack(path: $path){
             ScrollView {
                 LazyVStack(spacing: 16) {
                     ForEach(viewModel.state.activities) { activity in
-                        NavigationLink(destination: ActivitySetupView(activity: activity)) {
+                        NavigationLink(value: activity) {
                             ActivityCard(
                                 emoji: activity.emoji,
                                 title: activity.name,
@@ -42,6 +44,9 @@ struct ActivitiesView: View{
                     }
                 }
                 .padding()
+            }
+            .navigationDestination(for: ActivityModel.self) { activity in
+                ActivitySetupView(path: $path, activity: activity)
             }
         }
         .themedBackground()

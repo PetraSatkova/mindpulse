@@ -73,25 +73,40 @@ struct WatchActivityRunningView: View {
                     Spacer(minLength: 4)
                     
                     //tepova frekvence
-                    HStack(spacing: 5) {
-                        Image(systemName: "heart.fill")
-                            .font(.system(size: 20))
-                            .foregroundStyle(viewModel.currentBPM > 0 ? .red : .gray.opacity(0.3))
-                            .symbolEffect(.bounce, options: .repeating, isActive: viewModel.currentBPM > 0)
-                        
-                        Text(viewModel.currentBPM > 0 ? "\(viewModel.currentBPM)" : "--")
-                            .font(.system(size: 28, weight: .bold, design: .rounded))
-                            .contentTransition(.numericText())
-                        
-                        Text("BPM")
-                            .font(.system(size: 11, weight: .semibold, design: .rounded))
-                            .foregroundStyle(.secondary)
-                            .offset(y: 4)
+                    //tepova frekvence
+                    if activity.hrRecording {
+                        HStack(spacing: 5) {
+                            Image(systemName: "heart.fill")
+                                .font(.system(size: 20))
+                                .foregroundStyle(viewModel.currentBPM > 0 ? .red : .gray.opacity(0.3))
+                                .symbolEffect(.bounce, options: .repeating, isActive: viewModel.currentBPM > 0)
+                            
+                            Text(viewModel.currentBPM > 0 ? "\(viewModel.currentBPM)" : "--")
+                                .font(.system(size: 28, weight: .bold, design: .rounded))
+                                .contentTransition(.numericText())
+                            
+                            Text("BPM")
+                                .font(.system(size: 11, weight: .semibold, design: .rounded))
+                                .foregroundStyle(.secondary)
+                                .offset(y: 4)
+                        }
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 14)
+                        .background(Color.gray.opacity(0.15))
+                        .clipShape(Capsule())
+                    } else {
+                        HStack(spacing: 5) {
+                             Image(systemName: "heart.slash")
+                                 .font(.system(size: 20))
+                                 .foregroundStyle(.gray.opacity(0.5))
+                             
+                             Text("Off")
+                                 .font(.system(size: 24, weight: .bold, design: .rounded))
+                                 .foregroundStyle(.gray.opacity(0.7))
+                        }
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 14)
                     }
-                    .padding(.vertical, 6)
-                    .padding(.horizontal, 14)
-                    .background(Color.gray.opacity(0.15))
-                    .clipShape(Capsule())
                     
                     Spacer(minLength: 4)
                     
@@ -101,8 +116,9 @@ struct WatchActivityRunningView: View {
                             isTimerRunning.toggle()
                         }
                         if isTimerRunning {
+                            // Resume: set new endTime based on current remaining time
                             endTime = Date().addingTimeInterval(Double(timeRemaining))
-                            viewModel.startActivity()
+                            viewModel.startActivity(activity: activity)
                         } else {
                             endTime = nil
                             viewModel.stopActivity(activityId: activity.id)
@@ -153,7 +169,7 @@ struct WatchActivityRunningView: View {
                 if isTimerRunning && endTime == nil {
                     endTime = Date().addingTimeInterval(Double(timeRemaining))
                 }
-                viewModel.startActivity()
+                viewModel.startActivity(activity: activity)
             }
         }
         .onDisappear {
