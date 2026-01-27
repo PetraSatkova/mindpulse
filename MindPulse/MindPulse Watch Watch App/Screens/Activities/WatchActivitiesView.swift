@@ -11,10 +11,11 @@ struct WatchActivitiesView: View {
     
     let activities = ActivityModel.sampleData
     @State var viewModel: WatchViewModel
+    @State private var path = NavigationPath()
     
     var body: some View {
         let activities = viewModel.state.activities
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(spacing: -20) {
                     ForEach(Array(activities.enumerated()), id: \.element.id) { index, activity in
@@ -34,6 +35,12 @@ struct WatchActivitiesView: View {
             }
             .scrollTargetBehavior(.viewAligned)
             .navigationTitle("MindPulse")
+            .navigationDestination(for: ActivityModel.self) { activity in
+                TimerView(viewModel: viewModel, activity: activity, path: $path)
+            }
+            .navigationDestination(for: RunningSession.self) { session in
+                WatchActivityRunningView(activity: session.activity, totalTime: session.totalTime, path: $path)
+            }
         }
         .onAppear {
             viewModel.fetchActivities()

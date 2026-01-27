@@ -11,6 +11,7 @@ import Foundation
 class WatchViewModel {
     
     var state: WatchState = WatchState()
+    var currentBPM: Int = 0
     
     private var dataManager: DataManaging
     private var heartRateManager: HeartRateManaging
@@ -22,7 +23,10 @@ class WatchViewModel {
         self.heartRateManager = DIContainer.shared.resolveFactory()
         self.phoneConnector = DIContainer.shared.resolve()
         
+        self.phoneConnector.requestInitialSync()
+        
         heartRateManager.onSample = { [weak self] bpm, timestamp in
+            self?.currentBPM = Int(bpm)
             self?.hrSamples.append(
                 HeartRateSampleModel(
                     id: UUID(),
@@ -43,9 +47,17 @@ class WatchViewModel {
     }
     
     func startActivity() {
-        try? heartRateManager.startRecording()
+        do {
+            try heartRateManager.startRecording()
+        } catch {
+            print("Error starting heart rate recording: \(error.localizedDescription)")
+        }
     }
 
+    func requestAuthorization() async {
+        try? await heartRateManager.requestAuthorization()
+    }
+    
     // v momente ako user hitne stop alebo sa dokonci aktivita na hodinkach, zavola sa tato funkcia a vsetky samples sa poslu do mobilu pomocou tranfer user info
     func stopActivity(activityId: UUID) {
         heartRateManager.stopRecording()

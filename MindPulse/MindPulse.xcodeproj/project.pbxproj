@@ -279,8 +279,11 @@
 				DEVELOPMENT_TEAM = KR63WNJVMH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MindPulse-Watch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "MindPulse Watch";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We save your workout data to HealthKit.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = school.MindPulse;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -314,8 +317,11 @@
 				DEVELOPMENT_TEAM = KR63WNJVMH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MindPulse-Watch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "MindPulse Watch";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Heart rate is used to record activity intensity.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We save your workout data to HealthKit.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = school.MindPulse;
 				LD_RUNPATH_SEARCH_PATHS = (

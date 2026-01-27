@@ -8,7 +8,7 @@
 import SwiftUI
 //import ElegantEmojiPicker
 
-struct ActivityModel: Identifiable, Equatable {
+struct ActivityModel: Identifiable, Hashable, Codable, Equatable {
     public var id: UUID
     public var name: String
     public var emoji: String
@@ -16,7 +16,7 @@ struct ActivityModel: Identifiable, Equatable {
     public var hrRecording: Bool
 }
 
-enum PaletteColor: String, CaseIterable {
+enum PaletteColor: String, CaseIterable, Hashable, Codable {
     case red, orange, yellow, green, blue, purple, pink, gray
 
     var swiftUIColor: Color {

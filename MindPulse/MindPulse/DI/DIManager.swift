@@ -78,14 +78,14 @@ extension DIContainer {
         }
 
         #if os(iOS)
-        register(WatchConnecting.self, cached: false) {
-            WatchConnector()
+        register(WatchConnecting.self, cached: true) { [unowned self] in
+            WatchConnector(dataManager: self.resolve())
         }
         #endif
 
         #if os(watchOS)
-        register(PhoneConnecting.self, cached: false) {
-            PhoneConnector(dataManager: DIContainer.shared.resolve(), heartRateManager: DIContainer.shared.resolveFactory())
+        register(PhoneConnecting.self, cached: true) { [unowned self] in
+            PhoneConnector(dataManager: self.resolve(), heartRateManager: self.resolveFactory())
         }
         #endif
     }

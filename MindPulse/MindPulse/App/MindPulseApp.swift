@@ -12,9 +12,11 @@ import SwiftUI
 struct MindPulseApp: App {
     @StateObject private var themeManager = ThemeManager()
     private let notifDelegate = NotificationsDelegate()
+    private let watchConnector: WatchConnecting
 
     init() {
         UNUserNotificationCenter.current().delegate = notifDelegate
+        self.watchConnector = DIContainer.shared.resolve()
     }
 
     var body: some Scene {
