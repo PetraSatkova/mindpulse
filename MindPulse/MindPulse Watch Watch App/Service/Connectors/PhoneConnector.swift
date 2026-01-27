@@ -136,6 +136,12 @@ class PhoneConnector: NSObject, WCSessionDelegate, PhoneConnecting {
     }
     
     func transferBatchOfSamples(payload: HeartRateBatchDTO) {
-        // TODO ako sa to posiela?
+        do {
+            let data = try JSONEncoder().encode(payload)
+            session.transferUserInfo(["payload": data])
+            print("Successfully transferred batch of \(payload.samples.count) samples for activity \(payload.activityId)")
+        } catch {
+            print("Error encoding HeartRateBatchDTO: \(error.localizedDescription)")
+        }
     }
 }

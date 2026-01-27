@@ -11,6 +11,8 @@ struct TimerView: View {
     @State var viewModel: WatchViewModel = WatchViewModel()
     var activity: ActivityModel
     
+    @Binding var path: NavigationPath
+    
     @State var hours: Int = 0
     @State var minutes: Int = 0
     @State var seconds: Int = 0
@@ -19,19 +21,17 @@ struct TimerView: View {
     @State var finished: Bool = false
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                TimeWheelPickerView(hours: $hours, minutes: $minutes, seconds: $seconds)
-                
-                NavigationLink(destination: WatchActivityRunningView(
-                    activity: activity,
-                    totalTime: (hours * 3600) + (minutes * 60) + seconds
-                )) {
-                    Text("Dive in")
-                }
-                .buttonStyle(.primary)
-                .disabled(hours == 0 && minutes == 0 && seconds == 0)
+        VStack {
+            TimeWheelPickerView(hours: $hours, minutes: $minutes, seconds: $seconds)
+            
+            Button(action: {
+                let totalTime = (hours * 3600) + (minutes * 60) + seconds
+                path.append(RunningSession(activity: activity, totalTime: totalTime))
+            }) {
+                Text("Dive in")
             }
+            .buttonStyle(.primary)
+            .disabled(hours == 0 && minutes == 0 && seconds == 0)
         }
         .navigationTitle(activity.name)
     }
@@ -39,5 +39,5 @@ struct TimerView: View {
 
 #Preview {
     TimerView(viewModel: WatchViewModel(), activity: .sampleData.first ?? ActivityModel(
-        id: UUID(), name: "meditation", emoji: "", color: .green, hrRecording: true))
+        id: UUID(), name: "meditation", emoji: "", color: .green, hrRecording: true), path: .constant(NavigationPath()))
 }

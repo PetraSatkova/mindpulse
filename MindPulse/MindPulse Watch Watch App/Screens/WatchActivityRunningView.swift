@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+// Screen managing the active workout session
 struct WatchActivityRunningView: View {
     
     var activity: ActivityModel
@@ -17,79 +18,112 @@ struct WatchActivityRunningView: View {
     @State private var timeRemaining: Int
     @State private var isTimerRunning: Bool = true
     @State private var endTime: Date?
-    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.scenePhase) var scenePhase //kontroluje zda je obrazovka zobrazena ci nikoliv
+    @State private var isFinished: Bool = false
+    @Binding var path: NavigationPath
     
-    // Timer publisher
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    init(activity: ActivityModel, totalTime: Int) {
+    init(activity: ActivityModel, totalTime: Int, path: Binding<NavigationPath>) {
         self.activity = activity
         self.totalTime = totalTime
+        self._path = path
         _timeRemaining = State(initialValue: totalTime)
     }
     
     var body: some View {
-        VStack {
-            ZStack {
-                // Background circle
-                Circle()
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 8)
-                
-                // Animated foreground circle
-                Circle()
-                    .trim(from: 0, to: CGFloat(timeRemaining) / CGFloat(totalTime))
-                    .stroke(
-                        activity.color.swiftUIColor,
-                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
-                    )
-                    .rotationEffect(.degrees(-90))
-                    .animation(.linear(duration: 1), value: timeRemaining)
-                
-                // Time display
-                VStack(spacing: 0) {
-                    Text(formatTime(timeRemaining))
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
-                        .contentTransition(.numericText())
-                    
-                    if !isTimerRunning {
-                        Text("PAUSED")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(.yellow)
+        Group {
+            if isFinished {
+                WatchActivityCompletedView(activity: activity, duration: totalTime, path: $path)
+            } else {
+                VStack(spacing: 4) {
+                    //casovac
+                    VStack(spacing: -2) {
+                        Text("REMAINING")
+                            .font(.system(size: 10, weight: .bold, design: .rounded))
+                            .foregroundStyle(.secondary)
                             .padding(.top, 2)
+                        
+                        Text(formatTime(timeRemaining))
+                            .font(.system(size: 42, weight: .bold, design: .rounded))
+                            .contentTransition(.numericText())
+                            .minimumScaleFactor(0.6)
+                            .lineLimit(1)
                     }
+                    .padding(.horizontal)
+                    
+                    //linearni progress bar
+                    GeometryReader { proxy in
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(Color.gray.opacity(0.3))
+                                .frame(height: 5)
+                            
+                            Capsule()
+                                .fill(activity.color.swiftUIColor)
+                                .frame(width: proxy.size.width * (CGFloat(timeRemaining) / CGFloat(totalTime)), height: 5)
+                                .animation(.linear(duration: 1), value: timeRemaining)
+                        }
+                    }
+                    .frame(height: 5)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 4)
+                    
+                    Spacer(minLength: 4)
+                    
+                    //tepova frekvence
+                    HStack(spacing: 5) {
+                        Image(systemName: "heart.fill")
+                            .font(.system(size: 20))
+                            .foregroundStyle(viewModel.currentBPM > 0 ? .red : .gray.opacity(0.3))
+                            .symbolEffect(.bounce, options: .repeating, isActive: viewModel.currentBPM > 0)
+                        
+                        Text(viewModel.currentBPM > 0 ? "\(viewModel.currentBPM)" : "--")
+                            .font(.system(size: 28, weight: .bold, design: .rounded))
+                            .contentTransition(.numericText())
+                        
+                        Text("BPM")
+                            .font(.system(size: 11, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.secondary)
+                            .offset(y: 4)
+                    }
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 14)
+                    .background(Color.gray.opacity(0.15))
+                    .clipShape(Capsule())
+                    
+                    Spacer(minLength: 4)
+                    
+                    //pauzovaci tlacitko
+                    Button(action: {
+                        withAnimation {
+                            isTimerRunning.toggle()
+                        }
+                        if isTimerRunning {
+                            endTime = Date().addingTimeInterval(Double(timeRemaining))
+                            viewModel.startActivity()
+                        } else {
+                            endTime = nil
+                            viewModel.stopActivity(activityId: activity.id)
+                        }
+                    }) {
+                        Image(systemName: isTimerRunning ? "pause.fill" : "play.fill")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(isTimerRunning ? .orange : .green)
+                    .clipShape(Circle())
+                    .controlSize(.regular)
+                    .padding(.bottom, 2)
                 }
+                .navigationTitle(activity.name)
+                .navigationBarTitleDisplayMode(.inline)
+                .edgesIgnoringSafeArea(.bottom)
             }
-            .padding(.horizontal, 4)
-            
-            Spacer()
-            
-            // Controls
-            Button(action: {
-                withAnimation {
-                    isTimerRunning.toggle()
-                }
-                if isTimerRunning {
-                    // Resuming: recalculate endTime based on current timeRemaining
-                    endTime = Date().addingTimeInterval(Double(timeRemaining))
-                    viewModel.startActivity()
-                } else {
-                    // Pausing: endTime becomes irrelevant, we hold on to current timeRemaining
-                    endTime = nil
-                    viewModel.stopActivity(activityId: activity.id)
-                }
-            }) {
-                Image(systemName: isTimerRunning ? "pause.fill" : "play.fill")
-                    .font(.title2)
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(isTimerRunning ? .orange : .green)
-            .frame(height: 44) // Explicit height for button area if needed
-            .padding(.bottom, 2)
         }
-        .padding(4)
-        .navigationTitle(activity.name)
-        .navigationBarTitleDisplayMode(.inline)
-        .onReceive(timer) { _ in
+        .onReceive(timer) { _ in //aktualizuje timer
             guard isTimerRunning, let endTime = endTime else { return }
             
             let remaining = Int(endTime.timeIntervalSince(Date()))
@@ -100,12 +134,13 @@ struct WatchActivityRunningView: View {
                 isTimerRunning = false
                 self.endTime = nil
                 viewModel.stopActivity(activityId: activity.id)
+                withAnimation {
+                    isFinished = true
+                }
             }
         }
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { newPhase in //ukazuje spravnou hodnotu i kdyz je app na pozadi
             if newPhase == .active {
-                // When app becomes active, the timer loop continues.
-                // If we have an endTime, the next tick helps, but to be instant:
                 if isTimerRunning, let endTime = endTime {
                     let remaining = Int(endTime.timeIntervalSince(Date()))
                     timeRemaining = max(0, remaining)
@@ -113,10 +148,13 @@ struct WatchActivityRunningView: View {
             }
         }
         .onAppear {
-            if isTimerRunning && endTime == nil {
-                endTime = Date().addingTimeInterval(Double(timeRemaining))
+            Task {
+                await viewModel.requestAuthorization()
+                if isTimerRunning && endTime == nil {
+                    endTime = Date().addingTimeInterval(Double(timeRemaining))
+                }
+                viewModel.startActivity()
             }
-            viewModel.startActivity()
         }
         .onDisappear {
             if isTimerRunning {
@@ -125,6 +163,7 @@ struct WatchActivityRunningView: View {
         }
     }
     
+    // Formats seconds into MM:SS string
     func formatTime(_ totalSeconds: Int) -> String {
         let minutes = totalSeconds / 60
         let seconds = totalSeconds % 60
@@ -133,5 +172,5 @@ struct WatchActivityRunningView: View {
 }
 
 #Preview {
-    WatchActivityRunningView(activity: .sampleData[0], totalTime: 60)
+    WatchActivityRunningView(activity: .sampleData[0], totalTime: 65, path: .constant(NavigationPath()))
 }

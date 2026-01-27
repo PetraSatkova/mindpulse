@@ -63,9 +63,13 @@ extension HeartRateManager {
         guard HKHealthStore.isHealthDataAvailable() else { return }
 
         let heartRate = HKObjectType.quantityType(forIdentifier: .heartRate)!
+        let workout = HKObjectType.workoutType()
+        
+        let types: Set<HKSampleType> = [heartRate, workout]
+        
         try await healthStore.requestAuthorization(
-            toShare: [],
-            read: [heartRate]
+            toShare: types,
+            read: types
         )
     }
 

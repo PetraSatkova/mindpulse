@@ -24,20 +24,16 @@ struct WatchActivityCard: View {
             }
             .padding()
             
-            NavigationStack {
-                NavigationLink {
-                    TimerView(activity: activity)
-                } label: {
-                    Image(systemName: "play.fill")
-                        .font(.title3)
-                        .foregroundStyle(.black)
-                        .frame(width: 48, height: 48)
-                        .background(Color(red: 0.75, green: 0.95, blue: 0.45))
-                        .clipShape(Circle())
-                }
-                .buttonStyle(.plain)
-                .padding(10)
+            NavigationLink(value: activity) {
+                Image(systemName: "play.fill")
+                    .font(.title3)
+                    .foregroundStyle(.black)
+                    .frame(width: 48, height: 48)
+                    .background(Color(red: 0.75, green: 0.95, blue: 0.45))
+                    .clipShape(Circle())
             }
+            .buttonStyle(.plain)
+            .padding(10)
         }
         .frame(height: 140)
         .background(activity.color.swiftUIColor.gradient)
