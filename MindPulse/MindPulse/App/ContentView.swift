@@ -15,6 +15,8 @@ struct ContentView: View {
     @State var selectedTab = 0
     @State private var isSettingPresented: Bool = false
     @State private var isNewActivityPresented: Bool = false
+    @State var isFilterPresented: Bool = false
+    @State var filteredActivity: ActivityModel? = nil
     
     var body: some View {
         NavigationStack{
@@ -25,7 +27,7 @@ struct ContentView: View {
                         
                     }
                     Tab("Statistics", systemImage: "list.bullet.circle", value: 1){
-                        StatisticsView().themedBackground()
+                        StatisticsView(filteredActivity: $filteredActivity).themedBackground()
                     }
                     Tab("Test", systemImage: "house", value: 3){
                         Test()
@@ -43,16 +45,25 @@ struct ContentView: View {
             }
             .navigationTitle(selectedTab == 1 ? "Statistics" : "MindPulse")
             .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing){
-                    // settings button
-                    Button(action: {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+
+                    // Show filter only on Statistics tab
+                    if selectedTab == 1 {
+                        Button {
+                            isFilterPresented.toggle()
+                        } label: {
+                            Image(systemName: "line.3.horizontal.decrease")
+                        }
+                    }
+
+                    Button {
                         isSettingPresented = true
-                    }) {
-                        Label("Add Place", systemImage: "gear")
-                            .labelStyle(.iconOnly)
+                    } label: {
+                        Image(systemName: "gear")
                     }
                 }
             }
+
             .navigationDestination(isPresented: $isSettingPresented) {
                 SettingView()
             }
@@ -65,6 +76,7 @@ struct ContentView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         ContentView()
+            .environmentObject(ThemeManager())
     } else {
         // Fallback on earlier versions
     }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Charts
 
 struct StatsCard: View {
     var title: String
@@ -23,7 +24,6 @@ struct StatsCard: View {
         .frame(height: 80)
         .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)
         .cornerRadius(25)
-        .padding()
     }
 }
 

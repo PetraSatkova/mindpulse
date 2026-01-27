@@ -8,7 +8,7 @@
 import SwiftUI
 //import ElegantEmojiPicker
 
-struct ActivityModel: Identifiable {
+struct ActivityModel: Identifiable, Equatable {
     public var id: UUID
     public var name: String
     public var emoji: String

@@ -9,31 +9,38 @@ import SwiftUI
 
 struct StatisticsView: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @State var isFilterPresented: Bool = false
-    @State var selectedActivity: ActivityModel? = nil
+    
+    @Binding var filteredActivity: ActivityModel?
+    @State var selectedRecord: RecordModel? = nil
     @State var viewModel: StatisticsViewModel = StatisticsViewModel()
     
     var body: some View {
-        NavigationStack {
-            VStack(alignment: .leading) {
-                HStack {
-                    StatsCard(
-                        title: selectedActivity == nil ? "Total sessions" : selectedActivity?.name ?? "Activity" ,
-                        value: selectedActivity == nil ? "\(viewModel.state.records.count)" : "16"
-                    )
-                    Spacer()
-                    StatsCard(
-                        title: selectedActivity == nil ? "Total time" : selectedActivity?.name ?? "Activity" ,
-                        value: selectedActivity == nil ? "\(viewModel.state.records.count)" : "2h 15 min"
-                    )
-                }
-                Spacer()
-                Text("graph")
-                Spacer()
-                Text("Last sessions")
+        VStack(alignment: .leading) {
+            HStack(alignment: .center, spacing: 100) {
+                StatsCard(
+                    title: filteredActivity == nil ? "Total sessions" : filteredActivity?.name ?? "Activity" ,
+                    value: filteredActivity == nil ? "\(viewModel.state.records.count)" : "16"
+                )
+                StatsCard(
+                    title: filteredActivity == nil ? "Total time" : filteredActivity?.name ?? "Activity" ,
+                    value: filteredActivity == nil ? "\(viewModel.state.records.count)" : "2h 15 min"
+                )
+            }
+            .padding()
+            
+            Spacer(minLength: 30)
+            
+            LineChart()
+            
+            Spacer(minLength: 50)
+            
+            Text("Last sessions")
+            List {
                 ForEach(viewModel.state.records) { record in
                     NavigationLink {
-                        StatisticsDetailView()
+                        if let selected = selectedRecord {
+                            StatisticsDetailView(selectedRecord: selected)
+                        }
                     } label: {
                         SessionRow(
                             title: "",
@@ -41,28 +48,18 @@ struct StatisticsView: View {
                             date: Date()
                         )
                     }
-
+                    
                 }
             }
-            
         }
         .padding()
-        .navigationTitle("Statistics")
         .onAppear {
             viewModel.fetchActivities()
             viewModel.fetchRcords()
             viewModel.calculateTime(activity: nil)
         }
-        .toolbar { // TODO not showing why?
-            ToolbarItemGroup(placement: .topBarTrailing){
-                // filter button
-                Button(action: {
-                    isFilterPresented.toggle()
-                }) {
-                    Label("Filter", systemImage: "line.3.horizontal.decrease")
-                        .labelStyle(.iconOnly)
-                }
-            }
+        .onChange(of: filteredActivity) { _, newValue in
+            viewModel.calculateTime(activity: newValue)
         }
     }
 }
