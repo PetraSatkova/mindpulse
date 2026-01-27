@@ -21,29 +21,19 @@ struct TimerView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if (!isTimerRunning) {
-                    TimeWheelPickerView(hours: $hours, minutes: $minutes, seconds: $seconds)
-                    Button {
-                        isTimerRunning.toggle()
-                        viewModel.startActivity()
-                    } label: {
-                        Text("Dive in")
-                    }
-                    .buttonStyle(.primary)
-                } else {
-                    // odpocitavanie
-                    Button {
-                        paused.toggle()
-                    } label: {
-                        Text("| |")
-                    }
-                    .buttonStyle(.primary)
-                }
+                TimeWheelPickerView(hours: $hours, minutes: $minutes, seconds: $seconds)
                 
-                // if finished -> viewmodel.stopActivity(activity.id)
+                NavigationLink(destination: WatchActivityRunningView(
+                    activity: activity,
+                    totalTime: (hours * 3600) + (minutes * 60) + seconds
+                )) {
+                    Text("Dive in")
+                }
+                .buttonStyle(.primary)
+                .disabled(hours == 0 && minutes == 0 && seconds == 0)
             }
         }
-        .navigationTitle("Meditation")
+        .navigationTitle(activity.name)
     }
 }
 

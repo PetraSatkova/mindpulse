@@ -22,6 +22,8 @@ class WatchViewModel {
         self.heartRateManager = DIContainer.shared.resolveFactory()
         self.phoneConnector = DIContainer.shared.resolve()
         
+        self.phoneConnector.requestInitialSync()
+        
         heartRateManager.onSample = { [weak self] bpm, timestamp in
             self?.hrSamples.append(
                 HeartRateSampleModel(

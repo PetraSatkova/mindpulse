@@ -14,9 +14,9 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
     private var session: WCSession
     private var dataManager: DataManaging
     
-    init(session: WCSession = .default) {
+    init(session: WCSession = .default, dataManager: DataManaging) {
         self.session = session
-        self.dataManager = DIContainer.shared.resolve()
+        self.dataManager = dataManager
         super.init()
         self.session.delegate = self
         self.session.activate()
@@ -35,16 +35,51 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
     }
     
     
+    // synchronizuje seznam aktivit
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        if let action = message["action"] as? String {
+            if action == "syncRequest" {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    let response = self.createSyncResponse()
+                    replyHandler(response)
+                }
+            }
+        }
+    }
+
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any]) {
         guard let data = userInfo["payload"] as? Data else { return }
 
-        // all samples from finished activity - let data manager handle saving to core data
         if let batch = try? JSONDecoder().decode(HeartRateBatchDTO.self, from: data) {
             dataManager.addHeartRateSamples(samples: batch)
         }
     }
     
-    // Sends the activity data to the watch app
+    // odpoved na synchronizaci, obsahuje pole aktivit
+    private func createSyncResponse() -> [String: Any] {
+        let activities = dataManager.fetchAllActivities()
+        let serializedActivities = activities.map { activity -> [String: Any] in
+            return [
+                "id": activity.id.uuidString,
+                "name": activity.name,
+                "emoji": activity.emoji,
+                "color": activity.color.rawValue,
+                "hrRecording": activity.hrRecording
+            ]
+        }
+        
+        return [
+            "action": "syncResponse",
+            "activities": serializedActivities
+        ]
+    }
+    
+
+    private func handleSyncRequest() {
+ 
+    }
+    
     func sendActivity(activity: ActivityModel) {
         if session.isReachable {
             var message: [String: Any] = [
@@ -65,7 +100,7 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
         }
     }
     
-    // Sends a delete command for the activity to the watch app
+    //impulz ke smazani aktivity an hodinkach
     func deleteActivity(activityId: UUID) {
         if session.isReachable {
             let message: [String: Any] = [
