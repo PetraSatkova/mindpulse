@@ -44,93 +44,94 @@ class WatchConnector : NSObject, WCSessionDelegate, WatchConnecting {
                     let response = self.createSyncResponse()
                     replyHandler(response)
                 }
-            if action == "saveRecord" {
-                if let data = message["payload"] as? Data {
-                     do {
-                         let record = try JSONDecoder().decode(ActivityRecordDTO.self, from: data)
-                         dataManager.saveActivityRecord(record)
-                         replyHandler(["status": "success"])
-                     } catch {
-                         print("Error decoding record in sendMessage: \(error.localizedDescription)")
-                         replyHandler(["status": "error", "message": error.localizedDescription])
-                     }
-                } else {
-                    replyHandler(["status": "error", "message": "No payload"])
+                if action == "saveRecord" {
+                    if let data = message["payload"] as? Data {
+                        do {
+                            let record = try JSONDecoder().decode(ActivityRecordDTO.self, from: data)
+                            dataManager.saveActivityRecord(record)
+                            replyHandler(["status": "success"])
+                        } catch {
+                            print("Error decoding record in sendMessage: \(error.localizedDescription)")
+                            replyHandler(["status": "error", "message": error.localizedDescription])
+                        }
+                    } else {
+                        replyHandler(["status": "error", "message": "No payload"])
+                    }
                 }
             }
         }
     }
-
+        
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any]) {
-        guard let data = userInfo["payload"] as? Data else { return }
-
-        do {
-            let record = try JSONDecoder().decode(ActivityRecordDTO.self, from: data)
-            dataManager.saveActivityRecord(record)
-        } catch {
-            print("Error decoding ActivityRecordDTO: \(error.localizedDescription)")
+            guard let data = userInfo["payload"] as? Data else { return }
+            
+            do {
+                let record = try JSONDecoder().decode(ActivityRecordDTO.self, from: data)
+                dataManager.saveActivityRecord(record)
+            } catch {
+                print("Error decoding ActivityRecordDTO: \(error.localizedDescription)")
+            }
         }
-    }
-    
-    // odpoved na synchronizaci, obsahuje pole aktivit
-    private func createSyncResponse() -> [String: Any] {
-        let activities = dataManager.fetchAllActivities()
-        let serializedActivities = activities.map { activity -> [String: Any] in
+        
+        // odpoved na synchronizaci, obsahuje pole aktivit
+        private func createSyncResponse() -> [String: Any] {
+            let activities = dataManager.fetchAllActivities()
+            let serializedActivities = activities.map { activity -> [String: Any] in
+                return [
+                    "id": activity.id.uuidString,
+                    "name": activity.name,
+                    "emoji": activity.emoji,
+                    "color": activity.color.rawValue,
+                    "hrRecording": activity.hrRecording
+                ]
+            }
+            
             return [
-                "id": activity.id.uuidString,
-                "name": activity.name,
-                "emoji": activity.emoji,
-                "color": activity.color.rawValue,
-                "hrRecording": activity.hrRecording
+                "action": "syncResponse",
+                "activities": serializedActivities
             ]
         }
         
-        return [
-            "action": "syncResponse",
-            "activities": serializedActivities
-        ]
-    }
-    
-
-    private func handleSyncRequest() {
- 
-    }
-    
-    func sendActivity(activity: ActivityModel) {
-        if session.isReachable {
-            let message: [String: Any] = [
-                "action": "add",
-                "id": activity.id.uuidString,
-                "name": activity.name,
-                "emoji": activity.emoji,
-                "color": activity.color.rawValue,
-                "hrRecording": activity.hrRecording
-            ]
+        
+        private func handleSyncRequest() {
             
-            print("📤 Sending activity to Watch: \(activity.name), HR: \(activity.hrRecording)")
-            
-            session.sendMessage(message, replyHandler: nil) { error in
-                print("Sending error: \(error.localizedDescription)")
+        }
+        
+        func sendActivity(activity: ActivityModel) {
+            if session.isReachable {
+                let message: [String: Any] = [
+                    "action": "add",
+                    "id": activity.id.uuidString,
+                    "name": activity.name,
+                    "emoji": activity.emoji,
+                    "color": activity.color.rawValue,
+                    "hrRecording": activity.hrRecording
+                ]
+                
+                print("📤 Sending activity to Watch: \(activity.name), HR: \(activity.hrRecording)")
+                
+                session.sendMessage(message, replyHandler: nil) { error in
+                    print("Sending error: \(error.localizedDescription)")
+                }
+                
+            } else {
+                print("Session is not reachable")
             }
-            
-        } else {
-            print("Session is not reachable")
+        }
+        
+        //impulz ke smazani aktivity an hodinkach
+        func deleteActivity(activityId: UUID) {
+            if session.isReachable {
+                let message: [String: Any] = [
+                    "action": "delete",
+                    "id": activityId.uuidString
+                ]
+                
+                session.sendMessage(message, replyHandler: nil) { error in
+                    print("Sending error: \(error.localizedDescription)")
+                }
+            } else {
+                print("Session is not reachable")
+            }
         }
     }
-    
-    //impulz ke smazani aktivity an hodinkach
-    func deleteActivity(activityId: UUID) {
-        if session.isReachable {
-            let message: [String: Any] = [
-                "action": "delete",
-                "id": activityId.uuidString
-            ]
-            
-            session.sendMessage(message, replyHandler: nil) { error in
-                print("Sending error: \(error.localizedDescription)")
-            }
-        } else {
-            print("Session is not reachable")
-        }
-    }
-}
