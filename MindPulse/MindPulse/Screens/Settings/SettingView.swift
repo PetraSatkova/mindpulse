@@ -74,7 +74,7 @@ struct SettingView: View {
 
                             let (h, m) = hourMinute(from: notifTime)
                             notificationManager.cancelDaily()
-                            notificationManager.scheduleDailyNotification(hour: h, minute: m, testIn5Seconds: true)
+                            notificationManager.scheduleDailyNotification(hour: h, minute: m, testIn5Seconds: false)
                             notifEnabled = true
                         }
                     }
@@ -93,7 +93,7 @@ struct SettingView: View {
 
                             let (h, m) = hourMinute(from: notifTime)
                             notificationManager.cancelDaily()
-                            notificationManager.scheduleDailyNotification(hour: h, minute: m, testIn5Seconds: true)
+                            notificationManager.scheduleDailyNotification(hour: h, minute: m, testIn5Seconds: false)
                             notifEnabled = true
                         }
                     }
