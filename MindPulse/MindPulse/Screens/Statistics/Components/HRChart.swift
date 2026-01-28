@@ -24,7 +24,7 @@ struct HRChart: View {
 
     var body: some View {
         if points.isEmpty {
-            ContentUnavailableView("No heart rate data", systemImage: "heart")
+            ContentUnavailableView("No heart rate data", systemImage: "heart.slash.fill")
         } else {
             Chart(points) { p in
                 LineMark(

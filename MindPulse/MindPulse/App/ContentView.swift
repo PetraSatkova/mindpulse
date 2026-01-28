@@ -33,15 +33,17 @@ struct ContentView: View {
                     .accessibilityIdentifier(.statisticsTab)
                 }
                 // plus button
-                NewActivityButton {
-                    isNewActivityPresented = true
+                if selectedTab == 0 {
+                    NewActivityButton {
+                        isNewActivityPresented = true
+                    }
+                    .accessibilityIdentifier(.newActivityButton)
+                    .sheet(isPresented: $isNewActivityPresented){
+                        NewActivityView(viewModel: viewModel).presentationDetents([.fraction(0.8), .large])
+                    }
+                    .padding(.trailing, 20)
+                    .padding(.bottom, 60)
                 }
-                .accessibilityIdentifier(.newActivityButton)
-                .sheet(isPresented: $isNewActivityPresented){
-                    NewActivityView(viewModel: viewModel).presentationDetents([.fraction(0.8), .large])
-                }
-                .padding(.trailing, 20)
-                .padding(.bottom, 60)
             }
             .navigationTitle(selectedTab == 1 ? "Statistics" : "MindPulse")
             .toolbar {

@@ -95,6 +95,7 @@ struct ActivityRunningView: View {
                         }
                     }){
                         Image(systemName: isTimerRunning ? "pause.fill" : "play.fill")
+                            .font(.system(size: 44))
                     }
                     .buttonStyle(.primary)
                     .padding(.horizontal, 40)

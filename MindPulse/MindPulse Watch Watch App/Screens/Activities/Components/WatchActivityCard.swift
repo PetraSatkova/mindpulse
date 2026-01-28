@@ -18,6 +18,9 @@ struct WatchActivityCard: View {
                         .font(.system(.title3, design: .rounded).weight(.semibold))
                         .foregroundStyle(.black)
                     Spacer()
+                    Image(systemName: activity.hrRecording ? "heart.fill" : "heart.slash.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.black.opacity(0.3))
                 }
                 Spacer()
                 Text(activity.emoji).font(.system(size: 60))

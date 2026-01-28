@@ -25,11 +25,11 @@ enum PaletteColor: String, CaseIterable, Hashable, Codable {
         case .orange: Color(hue: 0.08, saturation: 0.5, brightness: 1.0)
         case .yellow: Color(hue: 0.14, saturation: 0.6, brightness: 1.0)
         case .green: Color(hue: 0.35, saturation: 0.5, brightness: 0.9)
-        case .mint: Color(hue: 0.40, saturation: 0.4, brightness: 0.98) // More green, brighter
-        case .teal: Color(hue: 0.48, saturation: 0.55, brightness: 0.85) // Darker, richer
-        case .cyan: Color(hue: 0.53, saturation: 0.45, brightness: 0.95) // More blueish
-        case .blue: Color(hue: 0.62, saturation: 0.5, brightness: 1.0) // Shifted to pure blue
-        case .indigo: Color(hue: 0.68, saturation: 0.5, brightness: 0.9) // Shifted accordingly
+        case .mint: Color(hue: 0.40, saturation: 0.4, brightness: 0.98) 
+        case .teal: Color(hue: 0.48, saturation: 0.55, brightness: 0.85)
+        case .cyan: Color(hue: 0.53, saturation: 0.45, brightness: 0.95)
+        case .blue: Color(hue: 0.62, saturation: 0.5, brightness: 1.0)
+        case .indigo: Color(hue: 0.68, saturation: 0.5, brightness: 0.9)
         case .purple: Color(hue: 0.78, saturation: 0.45, brightness: 0.95)
         case .pink: Color(hue: 0.9, saturation: 0.4, brightness: 1.0)
         case .brown: Color(hue: 0.08, saturation: 0.4, brightness: 0.7)

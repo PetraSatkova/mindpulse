@@ -19,7 +19,7 @@ struct NewActivityView: View {
     
     @State private var emoji: Emoji? = nil
     @State private var name: String = ""
-    @State private var color: PaletteColor = .blue
+    @State private var color: PaletteColor = .red
     @State private var HRisActive: Bool = false
     
     @State private var isEmojiPickerPresented: Bool = false
@@ -34,78 +34,32 @@ struct NewActivityView: View {
     
     
     var body: some View {
-        
-        VStack{
-            // head
-            HStack{
-                // dismiss
-                Button(action: {dismiss()}){
-                    Image(systemName: "xmark")
-                        .font(.system(size: 30, weight: .bold))
-                        .foregroundColor(themeManager.currentTheme.isDark ? .white : .gray)
-                        .padding(8)
-                        .background(themeManager.currentTheme.isDark ? Color(.systemGray5) : Color(.systemGray5))
-                        .clipShape(Circle())
-                }
-                .accessibilityIdentifier(.newActivityCloseButton)
-                
-                Spacer()
-                
-                Text("New Activity")
-                    .font(.headline)
-                    .foregroundColor(textColor) // Barva nadpisu
-                Spacer()
-                
-                // save
-                Button(action: {
-                    print("📝 Creating activity. Toggle HRisActive: \(HRisActive)")
-                    let newActivity: ActivityModel = createActivity() // create new activity model
-                    print("📝 Created model. hrRecording: \(newActivity.hrRecording)")
-                    viewModel.addActivity(newActivity: newActivity)   // save to core data
-                    watchConnector.sendActivity(activity: newActivity) // send to watch
-                    viewModel.fetchActivities() 
-                    dismiss()
-                }) {
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 30, weight: .bold))
-                        .foregroundColor(.white)
-                        .padding(8)
-                        .background(Color.blue)
-                        .clipShape(Circle())
-                }
-                .accessibilityIdentifier(.newActivitySaveButton)
-            }
-            .padding(.horizontal)
-            .padding(.top, 20)
-            
-            
-            ScrollView{
-                // emoji
-                VStack(spacing: 24) {
+        NavigationStack {
+            List {
+                Section {
                     Button(action: {
                         isEmojiPickerPresented.toggle()
                     }){
                         VStack(spacing: 12) {
                             ZStack{
                                 Circle()
-                                    .stroke(Color.black, lineWidth: 2)
+                                    .stroke(textColor.opacity(0.8), lineWidth: 2)
                                     .frame(width: 100, height: 100)
                                 
                                 Text(emoji?.emoji ?? "")
                                     .font(.system(size: 50))
                             }
-                            .padding(.top, 20)
+                            .padding(.top, 10)
                             
                             Text("Tap to select emoji")
                                 .font(.subheadline)
                                 .foregroundColor(textColor)
-                                .padding(.bottom, 20)
+                                .padding(.bottom, 10)
                         }
                         .frame(maxWidth: .infinity)
-                        .background(cardBackgroundColor)
-                        .cornerRadius(20)
-                        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                     }
+                    .buttonStyle(.plain)
+                    .listRowBackground(Color.clear)
                     .emojiPicker(
                         isPresented: $isEmojiPickerPresented,
                         selectedEmoji: $emoji,
@@ -113,24 +67,16 @@ struct NewActivityView: View {
                     )
                 }
                 
-                // activity name
-                TextField("Activity name", text: $name)
-                    .padding()
-                    .background(cardBackgroundColor)
-                    .cornerRadius(20)
-                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-                    .accessibilityIdentifier(.newActivityNameField)
+                Section {
+                    TextField("Activity name", text: $name)
+                        .accessibilityIdentifier(.newActivityNameField)
+                }
                 
-                
-                //Color picker
-                VStack(alignment: .leading, spacing: 10){
-                    Text("Customization")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
+                Section("Customization") {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Card color")
-                            .fontWeight(.medium)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
@@ -154,41 +100,40 @@ struct NewActivityView: View {
                                     }
                                 }
                             }
-                            .padding(.vertical, 5)
+                            .frame(height: 44)
                             .padding(.horizontal, 2)
                         }
                     }
-                    .padding()
-                    .background(cardBackgroundColor)
-                    .cornerRadius(20)
-                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                    .padding(.vertical, 12)
                     
-                    // hr recording switch
-                    HStack{
-                        Text("HR recording")
-                            .fontWeight(.medium)
-                        
-                        Spacer()
-                        
-                        Toggle("", isOn: $HRisActive)
-                            .accessibilityIdentifier(.newActivityHRToggle)
-                    }
-                    .padding()
-                    .background(cardBackgroundColor)
-                    .cornerRadius(20)
-                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                    Toggle("HR recording", isOn: $HRisActive)
+                        .accessibilityIdentifier(.newActivityHRToggle)
                 }
             }
-            .padding()
-            .toolbar{
+            .navigationTitle("New Activity")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Close") {
                         dismiss()
                     }
+                    .accessibilityIdentifier(.newActivityCloseButton)
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Save") {
+                        let newActivity = createActivity()
+                        viewModel.addActivity(newActivity: newActivity)
+                        watchConnector.sendActivity(activity: newActivity)
+                        viewModel.fetchActivities()
+                        dismiss()
+                    }
+                    .fontWeight(.bold)
+                    .accessibilityIdentifier(.newActivitySaveButton)
+                    .disabled(name.isEmpty)
                 }
             }
         }
-        .background(themeManager.currentTheme.isDark ? Color.black.ignoresSafeArea() : Color.white.ignoresSafeArea())
     }
     
     private func createActivity() -> ActivityModel {

@@ -32,7 +32,7 @@ struct SettingCard: View {
                 .accessibilityIdentifier(accessibilityTag?.rawValue ?? "")
             }
         }
-        .frame(maxWidth: 350, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: 100)
         .background(themeManager.currentTheme.isDark ? Color.black : Color.white)
         .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)

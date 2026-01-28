@@ -19,7 +19,7 @@ struct ActivityCard: View{
                 .padding(.leading,16)
             Text(title).font(.system(size: 24)).fontWeight(.medium).foregroundStyle(.black)
         }
-        .frame(maxWidth: 350, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: 100)
         .background(cardColor)
         .cornerRadius(25)

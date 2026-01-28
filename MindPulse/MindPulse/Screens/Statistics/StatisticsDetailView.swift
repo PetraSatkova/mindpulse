@@ -17,7 +17,7 @@ struct StatisticsDetailView: View {
         
 
         
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 30) {
             Text(selectedRecord.date.formatted())
             
             HRChart(samples: viewModel.state.hrSamples)
@@ -29,6 +29,7 @@ struct StatisticsDetailView: View {
             }
             Spacer()
         }
+        .padding()
         .navigationTitle(LocalizedStringKey(viewModel.getActivityNameByRecord(record: selectedRecord)))
         .themedBackground()
         .onAppear {

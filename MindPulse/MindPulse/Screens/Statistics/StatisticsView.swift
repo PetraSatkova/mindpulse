@@ -22,27 +22,25 @@ struct StatisticsView: View {
 
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center) {
                 StatsCard(
-                    title: filteredActivity == nil ? "Total sessions" : LocalizedStringKey(filteredActivity?.name ?? "Activity") ,
+                    title: "Total sessions",
                     value: String(viewModel.state.totalCount)
                 )
-                Spacer()
+                
                 StatsCard(
-                    title: filteredActivity == nil ? "Total time" : LocalizedStringKey(filteredActivity?.name ?? "Activity") ,
+                    title: "Total time",
                     value: String(viewModel.state.totalMinutes)
                 )
             }
             
-            Spacer(minLength: 30)
-            
             LineChart(points: viewModel.state.weeklyPoints ?? [])
             
-            Spacer(minLength: 50)
             
             Text("Last sessions")
                 .font(Font.title3.bold())
+                .padding(.top, 10)
             
             List {
                 ForEach(recordsToShow) { record in

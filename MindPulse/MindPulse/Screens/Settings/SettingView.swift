@@ -46,6 +46,7 @@ struct SettingView: View {
             
             SettingCard(title: "App version", subtitle: LocalizedStringKey(appVersion))
         }
+        .padding(20)
         .themedBackground()
         .navigationTitle("Settings")
         .sheet(item: $activeSheet) { sheet in

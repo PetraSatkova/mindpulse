@@ -21,8 +21,10 @@ struct StatsCard: View {
             Text(value)
                 .font(.callout)
                 .bold()
+        
         }
         .frame(height: 80)
+        .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
         .background(themeManager.currentTheme.isDark ? Color.black : Color.white)
         .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)

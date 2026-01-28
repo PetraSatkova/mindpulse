@@ -43,7 +43,7 @@ struct ActivitiesView: View{
                         }
                     }
                 }
-                .padding()
+                .padding(20)
             }
             .navigationDestination(for: ActivityModel.self) { activity in
                 ActivitySetupView(path: $path, activity: activity)

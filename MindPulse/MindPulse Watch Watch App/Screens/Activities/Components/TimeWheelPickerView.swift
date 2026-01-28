@@ -17,7 +17,7 @@ struct TimeWheelPickerView: View {
             Color.black.ignoresSafeArea()
 
             VStack(spacing: 5) {
-                HStack(spacing: 8) {
+                HStack(spacing: 2) {
                     wheelPicker(value: $hours, range: 0...23)
                     Text(":")
                         .font(.title2.weight(.bold))
@@ -39,7 +39,7 @@ struct TimeWheelPickerView: View {
         Picker("", selection: value) {
             ForEach(range, id: \.self) { n in
                 Text(String(format: "%02d", n))
-                    .font(.title2.weight(.semibold))
+                    .font(.headline)
                     .monospacedDigit()
                     .foregroundStyle(.white)
                     .tag(n)
@@ -47,7 +47,7 @@ struct TimeWheelPickerView: View {
         }
         .labelsHidden()
         .pickerStyle(.wheel)
-        .frame(width: 55, height: 70) // controls wheel “window”
+        .frame(width: 45, height: 55) // controls wheel “window”
     }
 }
 
