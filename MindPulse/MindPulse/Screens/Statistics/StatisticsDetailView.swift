@@ -15,7 +15,7 @@ struct StatisticsDetailView: View {
     
     var body: some View {
         
-        var stats = viewModel.calculateHeartRateStats(from: viewModel.state.hrSamples)
+
         
         VStack(alignment: .center) {
             Text(selectedRecord.date.formatted())

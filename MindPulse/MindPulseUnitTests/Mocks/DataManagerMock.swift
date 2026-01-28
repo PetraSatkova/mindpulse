@@ -46,5 +46,6 @@ class DataManagerMock: DataManaging {
     func addRecord(activityId: UUID, record: RecordModel) {}
     func fetchAllRecords() -> [RecordModel] { [] }
     func fetchRecordsByActivityId(activityId: UUID) -> [RecordModel] { [] }
-    func addHeartRateSamples(samples: HeartRateBatchDTO) {}
+    func saveActivityRecord(_ dto: ActivityRecordDTO) {}
+    func fetchHeartRateSamples(record: RecordModel) -> [HeartRateSampleModel] { [] }
 }
