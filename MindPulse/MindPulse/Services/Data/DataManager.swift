@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Foundation
 
 class DataManager: DataManaging {
     
@@ -163,7 +164,8 @@ class DataManager: DataManaging {
             RecordModel(
                 id: record.id ?? UUID(),
                 date: record.date ?? Date(),
-                durationSeconds: record.durationSeconds)
+                durationSeconds: record.durationSeconds,
+                focusScore: record.focusScore)
         }
     }
     
@@ -184,6 +186,11 @@ class DataManager: DataManaging {
             newRecord.date = dto.startDate
             newRecord.durationSeconds = Int16(dto.duration)
             newRecord.activity = activity
+            
+            // Calculate and save Focus Score
+            if let focusScore = calculateFocusScore(from: dto.samples) {
+                newRecord.focusScore = focusScore
+            }
             
             for sample in dto.samples {
                 let hrEntity = HeartRateSampleEntity(context: context)
@@ -220,6 +227,39 @@ class DataManager: DataManaging {
                 bpm: hrSample.bpm,
                 timestamp: hrSample.timestamp ?? Date())
         }
+    }
+    
+    private func calculateFocusScore(from samples: [HeartRateSampleModel]) -> Int16? {
+        // Minimum 8 samples for a reliable trend analysis
+        guard samples.count >= 8 else { return nil }
+        
+        let bpms = samples.map { Double($0.bpm) }
+        let count = Double(bpms.count)
+        let mean = bpms.reduce(0, +) / count
+        
+        // 1. Macro-Stability: Coefficient of Variation (CV)
+        let sumSquaredDiff = bpms.reduce(0) { $0 + pow($1 - mean, 2) }
+        let sd = sqrt(sumSquaredDiff / count)
+        let cv = (sd / mean) * 100.0
+        
+        // 2. Micro-Stability: Mean Successive Difference (MSD)
+        var successiveDiffSum = 0.0
+        for i in 0..<(bpms.count - 1) {
+            successiveDiffSum += abs(bpms[i+1] - bpms[i])
+        }
+        let msd = successiveDiffSum / (count - 1)
+        
+        // Instead of linear penalties, we use a square root curve (sqrt).
+        // This means small natural fluctuations are barely penalized, 
+        // but larger, sustained instability starts to drop the score noticeably.
+        // We also adjust weights to be more 'human' (2.0 and 1.0).
+        let macroPenalty = sqrt(cv) * 8.0 // CV of 4% (stable) approx 16 pts penalty
+        let microPenalty = sqrt(msd) * 4.0 // MSD of 2 (stable) approx 5 pts penalty
+        
+        let finalScore = 100.0 - (macroPenalty + microPenalty)
+        
+        // Output clamped between 0-100
+        return Int16(max(0, min(100, round(finalScore))))
     }
 }
 

@@ -22,43 +22,45 @@ struct StatisticsView: View {
 
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .center) {
-                StatsCard(
-                    title: "Total sessions",
-                    value: String(viewModel.state.totalCount)
-                )
-                
-                StatsCard(
-                    title: "Total time",
-                    value: String(viewModel.state.totalMinutes)
-                )
-            }
-            
-            LineChart(points: viewModel.state.weeklyPoints ?? [])
-            
-            
-            Text("Last sessions")
-                .font(Font.title3.bold())
-                .padding(.top, 10)
-            
-            List {
-                ForEach(recordsToShow) { record in
-                    NavigationLink {
-                        StatisticsDetailView(selectedRecord: record, viewModel: viewModel)
-                    } label: {
-                        SessionRow(
-                            title: filteredActivity == nil ? viewModel.getActivityNameByRecord(record: record) : filteredActivity?.name ?? "unknown",
-                            value: String(DurationFormatter.formatSeconds(seconds: Int(record.durationSeconds))),
-                            date: record.date
-                        )
-                    }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                HStack(spacing: 12) {
+                    StatsCard(
+                        title: "Sessions",
+                        value: String(viewModel.state.totalCount),
+                        icon: "calendar.badge.clock"
+                    )
                     
+                    StatsCard(
+                        title: "Time",
+                        value: "\(viewModel.state.totalMinutes)m",
+                        icon: "clock.fill"
+                    )
+                }
+                
+                LineChart(points: viewModel.state.weeklyPoints ?? [])
+                
+                Text("Last sessions")
+                    .font(Font.title3.bold())
+                    .padding(.top, 10)
+                
+                LazyVStack(spacing: 12) {
+                    ForEach(recordsToShow) { record in
+                        NavigationLink {
+                            StatisticsDetailView(selectedRecord: record, viewModel: viewModel)
+                        } label: {
+                            SessionRow(
+                                title: filteredActivity == nil ? viewModel.getActivityNameByRecord(record: record) : filteredActivity?.name ?? "unknown",
+                                value: String(DurationFormatter.formatSeconds(seconds: Int(record.durationSeconds))),
+                                date: record.date
+                            )
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
             }
-            .scrollContentBackground(.hidden)
+            .padding()
         }
-        .padding()
         .onAppear {
             viewModel.fetchActivities()
             viewModel.fetchRecords()

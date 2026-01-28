@@ -58,7 +58,8 @@ struct HRChart: View {
                     }
                 }
             }
-            .frame(height: 200)
+            .chartYScale(domain: .automatic(includesZero: false))
+            .frame(height: 180)
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)

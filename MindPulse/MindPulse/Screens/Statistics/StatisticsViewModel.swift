@@ -106,6 +106,7 @@ extension StatisticsViewModel {
     func fetchHrSamplesByRecord(record: RecordModel) {
         let samples = dataManager.fetchHeartRateSamples(record: record)
         state.hrSamples = samples
+        state.focusScore = record.focusScore
         calculateHeartRateStats()
     }
 
@@ -113,12 +114,12 @@ extension StatisticsViewModel {
         let bpms = state.hrSamples.map { Int($0.bpm) }
         
         if bpms.isEmpty {
-            state.minHR = 0
-            state.maxHR = 0
-            state.avgHR = 0
+            state.minHR = nil
+            state.maxHR = nil
+            state.avgHR = nil
         } else {
-            state.minHR = bpms.min() ?? 0
-            state.maxHR = bpms.max() ?? 0
+            state.minHR = bpms.min()
+            state.maxHR = bpms.max()
             let sum = bpms.reduce(0, +)
             state.avgHR = sum / bpms.count
         }

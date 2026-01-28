@@ -16,18 +16,43 @@ struct SessionRow: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.title3)
-                    .bold()
-                Text(value)
-                    .font(.callout)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(themeManager.currentTheme.isDark ? .white : .black)
+                
+                HStack(spacing: 4) {
+                    Image(systemName: "timer")
+                        .font(.caption2)
+                    Text(value)
+                        .font(.system(size: 13, weight: .medium))
+                }
+                .foregroundStyle(.secondary)
             }
+            
             Spacer()
-            Text(date, style: .date)
+            
+            VStack(alignment: .trailing, spacing: 4) {
+                Text(date, style: .date)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.secondary)
+                
+                Text(date, style: .time)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.tertiary)
+            }
+            
+            Image(systemName: "chevron.right")
+                .font(.system(size: 12, weight: .bold))
+                .foregroundStyle(.tertiary)
+                .padding(.leading, 8)
         }
-        .frame(height: 80)
-        .cornerRadius(25)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background {
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.ultraThinMaterial)
+        }
     }
 }
 

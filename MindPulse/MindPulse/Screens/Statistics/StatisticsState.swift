@@ -16,7 +16,9 @@ final class StatisticsState {
     var weeklyPoints: [DayMinutes]? = []
     var hrSamples: [HeartRateSampleModel] = []
     
-    var minHR: Int = 0
-    var maxHR: Int = 0
-    var avgHR: Int = 0
+    var minHR: Int? = nil
+    var maxHR: Int? = nil
+    var avgHR: Int? = nil
+    
+    var focusScore: Int16? = nil
 }
