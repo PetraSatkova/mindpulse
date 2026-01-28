@@ -10,5 +10,6 @@ import UIKit
 
 protocol NotificationManaging {
     func requestPermission() async -> Bool
-    func scheduleDailyNotification(hour: Int, minute: Int)
+    func scheduleDailyNotification(hour: Int, minute: Int, testIn5Seconds: Bool)
+    func cancelDaily()
 }

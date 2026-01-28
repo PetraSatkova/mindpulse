@@ -25,22 +25,82 @@ struct SettingView: View {
     @EnvironmentObject var themeManager: ThemeManager
     private let appVersion: String = Bundle.main.appVersion ?? "-"
     
-    
+    @State private var showNotifMenu = false
+    @State private var showTimePicker = false
+    @State private var notifTime = Calendar.current.date(from: DateComponents(hour: 21, minute: 10)) ?? Date()
+    @State private var notifEnabled = false
+
     
     var body: some View {
         VStack{
             SettingCard(title: "Theme", subtitle: LocalizedStringKey(themeManager.currentTheme.name), buttonText: "Select", accessibilityTag: .settingThemeButton){
                 activeSheet = .themeSelector
             }
-            SettingCard(title: "Notifications", subtitle: "Off", buttonText: "Set"){
-                activeSheet = .notificationSettings
-                Task {
-                    let granted = await notificationManager.requestPermission()
-                    print("Granted:", granted)
-                }
-                // TODO pupup s nastavenim casu
-                notificationManager.scheduleDailyNotification(hour: 21, minute: 10)
+            SettingCard(
+                title: "Notifications",
+                subtitle: notifEnabled ? LocalizedStringKey(timeString(notifTime)) : "Off",
+                buttonText: "Set"
+            ) {
+                showNotifMenu = true
             }
+            .confirmationDialog("Notifications", isPresented: $showNotifMenu, titleVisibility: .visible) {
+
+                Button("Change time…") {
+                    showTimePicker = true
+                }
+
+//                Button(notifEnabled ? "Reschedule" : "Enable") {
+//                    Task {
+//                        let granted = await notificationManager.requestPermission()
+//                        guard granted else { return }
+//
+//                        let (h, m) = hourMinute(from: notifTime)
+//                        notificationManager.cancelDaily()
+//                        notificationManager.scheduleDailyNotification(hour: h, minute: m, testIn5Seconds: true)
+//                        notifEnabled = true
+//                    }
+//                }
+
+                if notifEnabled {
+                    Button("Disable", role: .destructive) {
+                        notificationManager.cancelDaily()
+                        notifEnabled = false
+                    }
+                } else {
+                    Button("Enable") {
+                        Task {
+                            let granted = await notificationManager.requestPermission()
+                            guard granted else { return }
+
+                            let (h, m) = hourMinute(from: notifTime)
+                            notificationManager.cancelDaily()
+                            notificationManager.scheduleDailyNotification(hour: h, minute: m, testIn5Seconds: true)
+                            notifEnabled = true
+                        }
+                    }
+
+                }
+
+                Button("Cancel", role: .cancel) {}
+            }
+            .sheet(isPresented: $showTimePicker) {
+                NotificationTimePickerSheet(
+                    time: $notifTime,
+                    onSave: {
+                        Task {
+                            let granted = await notificationManager.requestPermission()
+                            guard granted else { return }
+
+                            let (h, m) = hourMinute(from: notifTime)
+                            notificationManager.cancelDaily()
+                            notificationManager.scheduleDailyNotification(hour: h, minute: m, testIn5Seconds: true)
+                            notifEnabled = true
+                        }
+                    }
+                )
+                .presentationDetents([.medium])
+            }
+
             
             Spacer()
             
@@ -62,6 +122,19 @@ struct SettingView: View {
 
         }
     }
+    
+    private func hourMinute(from date: Date) -> (Int, Int) {
+        let comps = Calendar.current.dateComponents([.hour, .minute], from: date)
+        return (comps.hour ?? 21, comps.minute ?? 0)
+    }
+
+    private func timeString(_ date: Date) -> String {
+        let f = DateFormatter()
+        f.timeStyle = .short
+        f.dateStyle = .none
+        return f.string(from: date)
+    }
+
 }
 
 

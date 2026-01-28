@@ -21,30 +21,33 @@ class NotificationManager: NotificationManaging {
             }
         }
     
-    func scheduleDailyNotification(hour: Int, minute: Int) {
+    func scheduleDailyNotification(hour: Int, minute: Int, testIn5Seconds: Bool = false) {
         let content = UNMutableNotificationContent()
         content.title = "Reminder"
         content.body = "Don’t forget to log your entry today."
         content.sound = .default
 
-        var dateComponents = DateComponents()
-        dateComponents.hour = hour
-        dateComponents.minute = minute
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        let triggerNow = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false) // for testing
+        let trigger: UNNotificationTrigger
+        if testIn5Seconds {
+            trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        } else {
+            var dc = DateComponents()
+            dc.hour = hour
+            dc.minute = minute
+            trigger = UNCalendarNotificationTrigger(dateMatching: dc, repeats: true)
+        }
 
         let request = UNNotificationRequest(
             identifier: "daily_reminder",
             content: content,
-            trigger: triggerNow
+            trigger: trigger
         )
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error { print("Schedule error:", error) }
         }
-        
     }
+
     
     func cancelDaily() {
             UNUserNotificationCenter.current()
